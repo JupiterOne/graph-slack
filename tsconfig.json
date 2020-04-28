@@ -1,8 +1,8 @@
 {
   "compilerOptions": {
     "outDir": "dist",
-    "target": "ESnext",
-    "lib": ["esnext", "es2018"],
+    "target": "es2018",
+    "lib": ["es2018"],
     "module": "commonjs",
     "moduleResolution": "node",
     "noUnusedLocals": true,
