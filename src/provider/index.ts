@@ -1,5 +1,5 @@
 import { IntegrationExecutionContext } from '@jupiterone/integration-sdk';
-import SlackWebClient from './SlackWebClient';
+import { SlackWebClient } from './SlackProvider';
 import { WebClientEvent } from '@slack/web-api';
 
 export const USERS_READ_SCOPE = 'users:read';

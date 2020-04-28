@@ -1,26 +1,36 @@
+let mockSlackTestFn = jest.fn();
+jest.mock('../provider/SlackProvider', () => {
+  return {
+    SlackWebClient: jest.fn().mockImplementation(() => {
+      return {
+        api: {
+          test: mockSlackTestFn,
+        },
+        on: jest.fn(),
+      };
+    }),
+  };
+});
+
 import { v4 as uuid } from 'uuid';
 import { createMockExecutionContext } from '@jupiterone/integration-sdk/testing';
 import validateInvocation from '../validateInvocation';
-import fetchMock from 'jest-fetch-mock';
 import { USERS_READ_SCOPE } from '../provider';
+import { WebAPICallResult } from '@slack/web-api';
 
 beforeEach(() => {
-  fetchMock.doMock();
+  mockSlackTestFn = jest.fn();
 });
 
 test('rejects if unable to hit provider apis', async () => {
-  fetchMock.mockResponse(() =>
-    Promise.resolve({
-      status: 403,
-      body: 'Unauthorized',
-    }),
-  );
+  mockSlackTestFn.mockRejectedValueOnce(new Error('test'));
 
-  const context = createMockExecutionContext();
-  context.instance.config = {
-    accessToken: uuid(),
-    scopes: USERS_READ_SCOPE,
-  };
+  const context = createMockExecutionContext({
+    instanceConfig: {
+      accessToken: uuid(),
+      scopes: USERS_READ_SCOPE,
+    },
+  });
 
   await expect(validateInvocation(context)).rejects.toThrow(
     /Failed to authenticate with provided credentials/,
@@ -28,7 +38,19 @@ test('rejects if unable to hit provider apis', async () => {
 });
 
 test('should return undefined if configuration is valid', async () => {
-  fetchMock.mockResponse(JSON.stringify({}));
-  const context = createMockExecutionContext();
+  const mockResponse: WebAPICallResult = {
+    ok: true,
+  };
+
+  mockSlackTestFn.mockResolvedValueOnce(Promise.resolve(mockResponse));
+
+  const context = createMockExecutionContext({
+    instanceConfig: {
+      accessToken: uuid(),
+      scopes: USERS_READ_SCOPE,
+      teamId: uuid(),
+    },
+  });
+
   await expect(validateInvocation(context)).resolves.toBe(undefined);
 });

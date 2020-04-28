@@ -8,7 +8,7 @@ import {
 
 import { createSlackClient } from '../../provider';
 import { SlackChannel } from '../../provider/types';
-import SlackWebClient from '../../provider/SlackWebClient';
+import { SlackWebClient } from '../../provider/SlackProvider';
 import fetchUsersStep from '../fetch-users';
 import {
   createChannelEntity,

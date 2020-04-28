@@ -23,7 +23,7 @@ async function isConfigurationValid(
 ): Promise<boolean> {
   try {
     const client = createSlackClient(context);
-    await client.test();
+    await client.api.test();
     return true;
   } catch (err) {
     context.logger.error({ err }, 'Error validating configuration');

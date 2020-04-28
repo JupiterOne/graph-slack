@@ -23,13 +23,9 @@ export interface ListChannelsResult extends WebAPICallResult {
   channels: SlackChannel[];
 }
 
-export default class SlackWebClient extends WebClient {
+export class SlackWebClient extends WebClient {
   constructor(token?: string, options?: WebClientOptions) {
     super(token, options);
-  }
-
-  test(): Promise<WebAPICallResult> {
-    return this.api.test();
   }
 
   async listAllUsers(options?: UsersListArguments): Promise<SlackUser[]> {
