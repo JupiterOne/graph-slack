@@ -1,0 +1,12 @@
+{
+  "accessToken": {
+    "type": "string",
+    "mask": true
+  },
+  "teamId": {
+    "type": "string"
+  },
+  "scopes": {
+    "type": "string"
+  }
+}
