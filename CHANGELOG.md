@@ -8,8 +8,8 @@ and this project adheres to
 
 ## [Unreleased]
 
+## 0.1.0 - 2020-04-27
+
 ### Added
 
 - Collection of users and channels
-
-### Changed
