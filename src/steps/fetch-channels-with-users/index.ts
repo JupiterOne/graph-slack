@@ -57,6 +57,12 @@ export async function addChannelUserRelationships({
   jobState: JobState;
 }): Promise<void> {
   for (const channel of channels) {
+    if (channel.num_members === 0) {
+      // Attempting to list channel members of a channel with 0 members will
+      // throw an error.
+      continue;
+    }
+
     const membersOfChannel = await client.listAllChannelMembers(channel.id);
 
     const relationships: Relationship[] = membersOfChannel.map((memberId) =>
