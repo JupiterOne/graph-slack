@@ -30,7 +30,7 @@ export class SlackWebClient extends WebClient {
 
   async listAllUsers(options?: UsersListArguments): Promise<SlackUser[]> {
     let members: SlackUser[] = [];
-    let nextCursor: string;
+    let nextCursor: string | undefined = undefined;
 
     do {
       const listUsersResponse = await this.users.list({
@@ -49,7 +49,7 @@ export class SlackWebClient extends WebClient {
     options?: ConversationsListArguments,
   ): Promise<SlackChannel[]> {
     let channels: SlackChannel[] = [];
-    let nextCursor: string;
+    let nextCursor: string | undefined = undefined;
 
     do {
       const listChannelsResponse = await this.conversations.list({
@@ -66,7 +66,7 @@ export class SlackWebClient extends WebClient {
 
   async listAllChannelMembers(channel: string): Promise<string[]> {
     let members: string[] = [];
-    let nextCursor: string;
+    let nextCursor: string | undefined = undefined;
 
     do {
       const listChannelMembersResponse = await this.conversations.members({

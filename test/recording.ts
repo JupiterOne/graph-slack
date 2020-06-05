@@ -1,8 +1,8 @@
 import {
   Recording,
   setupRecording as sdkSetupRecording,
-} from '@jupiterone/integration-sdk/testing';
-export { Recording } from '@jupiterone/integration-sdk/testing';
+} from '@jupiterone/integration-sdk-testing';
+export { Recording } from '@jupiterone/integration-sdk-testing';
 
 type SetupParameters = Parameters<typeof sdkSetupRecording>[0];
 

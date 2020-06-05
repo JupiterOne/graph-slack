@@ -1,13 +1,14 @@
 import {
   createMockStepExecutionContext,
   Recording,
-} from '@jupiterone/integration-sdk/testing';
+} from '@jupiterone/integration-sdk-testing';
 import { SLACK_CHANNEL_TYPE, SLACK_CHANNEL_CLASS } from '../../../converters';
 import { setupRecording } from '../../../../test/recording';
 
 import step from '../index';
-import { Entity } from '@jupiterone/integration-sdk';
+import { Entity } from '@jupiterone/integration-sdk-core';
 import { matchesSlackChannelKey } from '../../../../test/slack';
+import { SlackIntegrationConfig } from '../../../type';
 
 let recording: Recording;
 
@@ -23,7 +24,7 @@ afterEach(async () => {
 });
 
 test('step data collection', async () => {
-  const context = createMockStepExecutionContext();
+  const context = createMockStepExecutionContext<SlackIntegrationConfig>();
   await step.executionHandler(context);
 
   expect(context.jobState.collectedEntities.length).toBeGreaterThan(0);

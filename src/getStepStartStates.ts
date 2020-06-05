@@ -1,15 +1,13 @@
-import {
-  IntegrationStepStartStates,
-  IntegrationExecutionContext,
-} from '@jupiterone/integration-sdk';
+import { IntegrationExecutionContext } from '@jupiterone/integration-sdk-core';
 import { USERS_READ_SCOPE, CHANNELS_READ_SCOPE } from './provider';
 import fetchUsersStep from './steps/fetch-users';
 import fetchChannelsWithUsersStep from './steps/fetch-channels-with-users';
 import fetchChannels from './steps/fetch-channels';
 import { parseSlackScopes } from './util/slack';
+import { SlackIntegrationConfig } from './type';
 
 function validateExecutionConfig(
-  executionContext: IntegrationExecutionContext,
+  executionContext: IntegrationExecutionContext<SlackIntegrationConfig>,
 ): void {
   const { accessToken, teamId, scopes } = executionContext.instance.config;
 
@@ -33,8 +31,8 @@ function validateExecutionConfig(
 }
 
 export default function getStepStartStates(
-  executionContext: IntegrationExecutionContext,
-): IntegrationStepStartStates {
+  executionContext: IntegrationExecutionContext<SlackIntegrationConfig>,
+) {
   validateExecutionConfig(executionContext);
 
   const scopes = new Set(

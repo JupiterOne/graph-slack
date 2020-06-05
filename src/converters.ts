@@ -1,5 +1,8 @@
 import { SlackChannel, SlackUser } from './provider/types';
-import { createIntegrationEntity, Entity } from '@jupiterone/integration-sdk';
+import {
+  createIntegrationEntity,
+  Entity,
+} from '@jupiterone/integration-sdk-core';
 
 export const SLACK_USER_TYPE = 'slack_user';
 export const SLACK_USER_CLASS = 'User';
