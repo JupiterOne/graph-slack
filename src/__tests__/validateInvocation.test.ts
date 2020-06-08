@@ -13,10 +13,11 @@ jest.mock('../provider/SlackProvider', () => {
 });
 
 import { v4 as uuid } from 'uuid';
-import { createMockExecutionContext } from '@jupiterone/integration-sdk/testing';
+import { createMockExecutionContext } from '@jupiterone/integration-sdk-testing';
 import validateInvocation from '../validateInvocation';
 import { USERS_READ_SCOPE } from '../provider';
 import { WebAPICallResult } from '@slack/web-api';
+import { SlackIntegrationConfig } from '../type';
 
 beforeEach(() => {
   mockSlackTestFn = jest.fn();
@@ -25,10 +26,11 @@ beforeEach(() => {
 test('rejects if unable to hit provider apis', async () => {
   mockSlackTestFn.mockRejectedValueOnce(new Error('test'));
 
-  const context = createMockExecutionContext({
+  const context = createMockExecutionContext<SlackIntegrationConfig>({
     instanceConfig: {
       accessToken: uuid(),
       scopes: USERS_READ_SCOPE,
+      teamId: 'slack-team-id',
     },
   });
 

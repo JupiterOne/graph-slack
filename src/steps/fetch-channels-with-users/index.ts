@@ -1,10 +1,9 @@
 import {
   IntegrationStep,
-  IntegrationStepExecutionContext,
   createIntegrationRelationship,
   Relationship,
   JobState,
-} from '@jupiterone/integration-sdk';
+} from '@jupiterone/integration-sdk-core';
 
 import { createSlackClient } from '../../provider';
 import { SlackChannel } from '../../provider/types';
@@ -17,13 +16,14 @@ import {
   toUserEntityKey,
   SLACK_USER_CLASS,
 } from '../../converters';
+import { SlackIntegrationConfig } from '../../type';
 
-const step: IntegrationStep = {
+const step: IntegrationStep<SlackIntegrationConfig> = {
   id: 'fetch-channels-with-users',
   name: 'Fetch channels and each user in the channel',
   types: [SLACK_CHANNEL_TYPE],
   dependsOn: [fetchUsersStep.id],
-  async executionHandler(context: IntegrationStepExecutionContext) {
+  async executionHandler(context) {
     const { instance, jobState } = context;
     const client = createSlackClient(context);
     const channels = await client.listAllChannels();

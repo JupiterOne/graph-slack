@@ -1,12 +1,13 @@
 import {
   createMockStepExecutionContext,
   createMockIntegrationLogger,
-} from '@jupiterone/integration-sdk/testing';
+} from '@jupiterone/integration-sdk-testing';
 import { createSlackClient } from '../';
 import { WebClientEvent } from '@slack/web-api';
+import { SlackIntegrationConfig } from '../../type';
 
 test('should log error message when rate limited', () => {
-  const context = createMockStepExecutionContext();
+  const context = createMockStepExecutionContext<SlackIntegrationConfig>();
 
   const mockLogger = createMockIntegrationLogger();
   const warnFn = (mockLogger.warn = jest.fn());

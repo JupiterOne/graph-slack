@@ -1,1 +1,1 @@
-export { createMockStepExecutionContext } from '@jupiterone/integration-sdk/testing';
+export { createMockStepExecutionContext } from '@jupiterone/integration-sdk-testing';

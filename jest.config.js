@@ -1,9 +1,5 @@
 module.exports = {
-  clearMocks: true,
-  preset: 'ts-jest',
-  testMatch: ['**/__tests__/**/*test.(js|ts)'],
-  testPathIgnorePatterns: ['<rootDir>/dist/', '<rootDir>/node_modules/'],
-  testEnvironment: 'node',
+  ...require('@jupiterone/integration-sdk-dev-tools/config/jest'),
   collectCoverage: true,
   collectCoverageFrom: ['src/**/*.ts'],
   coverageThreshold: {
@@ -12,11 +8,6 @@ module.exports = {
       branches: 100,
       functions: 100,
       lines: 100,
-    },
-  },
-  globals: {
-    'ts-jest': {
-      isolatedModules: true,
     },
   },
 };

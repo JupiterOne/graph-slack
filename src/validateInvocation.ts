@@ -1,8 +1,9 @@
-import { IntegrationExecutionContext } from '@jupiterone/integration-sdk';
+import { IntegrationExecutionContext } from '@jupiterone/integration-sdk-core';
 import { createSlackClient } from './provider';
+import { SlackIntegrationConfig } from './type';
 
 export default async function validateInvocation(
-  context: IntegrationExecutionContext,
+  context: IntegrationExecutionContext<SlackIntegrationConfig>,
 ): Promise<void> {
   context.logger.info(
     {
@@ -19,7 +20,7 @@ export default async function validateInvocation(
 }
 
 async function isConfigurationValid(
-  context: IntegrationExecutionContext,
+  context: IntegrationExecutionContext<SlackIntegrationConfig>,
 ): Promise<boolean> {
   try {
     const client = createSlackClient(context);
