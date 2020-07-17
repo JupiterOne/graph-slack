@@ -1,5 +1,9 @@
-import { IntegrationExecutionContext } from '@jupiterone/integration-sdk-core';
+import {
+  IntegrationExecutionContext,
+  StepStartStates,
+} from '@jupiterone/integration-sdk-core';
 import { USERS_READ_SCOPE, CHANNELS_READ_SCOPE } from './provider';
+import teamStep from './steps/team';
 import fetchUsersStep from './steps/fetch-users';
 import fetchChannelsWithUsersStep from './steps/fetch-channels-with-users';
 import fetchChannels from './steps/fetch-channels';
@@ -32,7 +36,7 @@ function validateExecutionConfig(
 
 export default function getStepStartStates(
   executionContext: IntegrationExecutionContext<SlackIntegrationConfig>,
-) {
+): StepStartStates {
   validateExecutionConfig(executionContext);
 
   const scopes = new Set(
@@ -43,6 +47,7 @@ export default function getStepStartStates(
     !scopes.has(CHANNELS_READ_SCOPE) || !scopes.has(USERS_READ_SCOPE);
 
   return {
+    [teamStep.id]: { disabled: false },
     [fetchUsersStep.id]: { disabled: !scopes.has(USERS_READ_SCOPE) },
     [fetchChannelsWithUsersStep.id]: {
       disabled: fetchChannelsWithUsersDisabled,

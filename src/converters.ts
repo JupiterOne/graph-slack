@@ -2,12 +2,44 @@ import { SlackChannel, SlackUser } from './provider/types';
 import {
   createIntegrationEntity,
   Entity,
+  createIntegrationRelationship,
+  Relationship,
 } from '@jupiterone/integration-sdk-core';
 
+export const SLACK_TEAM_TYPE = 'slack_team';
+export const SLACK_TEAM_CLASS = 'Account';
 export const SLACK_USER_TYPE = 'slack_user';
 export const SLACK_USER_CLASS = 'User';
 export const SLACK_CHANNEL_TYPE = 'slack_channel';
 export const SLACK_CHANNEL_CLASS = 'Channel';
+
+export const SLACK_TEAM_HAS_USER_RELATIONSHIP = 'slack_team_has_User';
+export const SLACK_CHANNEL_HAS_USER_RELATIONSHIP = 'slack_channel_has_User';
+
+export function createTeamEntity(teamData: {
+  teamId: string;
+  teamName: string;
+  appId: string;
+}): Entity {
+  return createIntegrationEntity({
+    entityData: {
+      source: teamData,
+      assign: {
+        _key: toTeamEntityKey(teamData.teamId),
+        _type: SLACK_TEAM_TYPE,
+        _class: SLACK_TEAM_CLASS,
+        id: teamData.teamId,
+        displayName: teamData.teamName,
+        name: teamData.teamName,
+        appId: teamData.appId,
+      },
+    },
+  });
+}
+
+export function toTeamEntityKey(teamId: string): string {
+  return `slack-team:${teamId}`;
+}
 
 export function createUserEntity(teamId: string, user: SlackUser): Entity {
   return createIntegrationEntity({
@@ -27,9 +59,9 @@ export function createUserEntity(teamId: string, user: SlackUser): Entity {
         email: user.profile.email,
         bot: user.profile.is_bot === true,
         mfaEnabled: user.has_2fa === true,
-        admin: user.is_admin === true,
-        owner: user.is_owner === true,
-        primaryOwner: user.is_primary_owner === true,
+        teamAdmin: user.is_admin === true,
+        teamOwner: user.is_owner === true,
+        primaryTeamOwner: user.is_primary_owner === true,
         restricted: user.is_restricted === true,
         ultraRestricted: user.is_ultra_restricted === true,
         updatedOn: user.updated,
@@ -89,4 +121,20 @@ export function toChannelEntityKey(
   channel: SlackChannel,
 ): string {
   return `slack-channel:team_${teamId}:channel_${channel.id}`;
+}
+
+export function createTeamHasUserRelationship({
+  teamId,
+  userEntity,
+}: {
+  teamId: string;
+  userEntity: Entity;
+}): Relationship {
+  return createIntegrationRelationship({
+    _class: 'HAS',
+    fromKey: toTeamEntityKey(teamId),
+    fromType: SLACK_TEAM_TYPE,
+    toType: SLACK_USER_CLASS,
+    toKey: userEntity._key,
+  });
 }

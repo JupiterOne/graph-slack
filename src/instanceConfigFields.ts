@@ -8,7 +8,19 @@ const instanceConfigFields: IntegrationInstanceConfigFieldMap = {
   teamId: {
     type: 'string',
   },
+  teamName: {
+    type: 'string',
+  },
   scopes: {
+    type: 'string',
+  },
+  appId: {
+    type: 'string',
+  },
+  botUserId: {
+    type: 'string',
+  },
+  authedUserId: {
     type: 'string',
   },
 };
