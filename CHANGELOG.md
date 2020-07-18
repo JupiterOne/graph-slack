@@ -13,3 +13,8 @@ and this project adheres to
 ### Added
 
 - Collection of users and channels
+
+## 2.2.0 - 2020-07-18
+
+- Create a `slack_team` entity and a relationship between each `slack_user` and
+  the `slack_team`.
