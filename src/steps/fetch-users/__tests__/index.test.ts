@@ -1,14 +1,15 @@
+import { Recording } from '@jupiterone/integration-sdk-testing';
+import { createMockStepExecutionContext } from '../../../../test/context';
 import {
-  createMockStepExecutionContext,
-  Recording,
-} from '@jupiterone/integration-sdk-testing';
-import { SLACK_USER_TYPE, SLACK_USER_CLASS } from '../../../converters';
+  SLACK_USER_TYPE,
+  SLACK_USER_CLASS,
+  createTeamHasUserRelationship,
+} from '../../../converters';
 import { setupRecording } from '../../../../test/recording';
 
 import step from '../index';
-import { Entity } from '@jupiterone/integration-sdk-core';
+import { Entity, Relationship } from '@jupiterone/integration-sdk-core';
 import { matchesSlackUserKey } from '../../../../test/slack';
-import { SlackIntegrationConfig } from '../../../type';
 
 let recording: Recording;
 
@@ -24,11 +25,11 @@ afterEach(async () => {
 });
 
 test('step data collection', async () => {
-  const context = createMockStepExecutionContext<SlackIntegrationConfig>();
+  const context = createMockStepExecutionContext();
   await step.executionHandler(context);
 
   expect(context.jobState.collectedEntities.length).toBeGreaterThan(0);
-  expect(context.jobState.collectedRelationships).toHaveLength(0);
+  expect(context.jobState.collectedRelationships.length).toBeGreaterThan(0);
 
   const expectedCollectedEntities: Entity[] = context.jobState.collectedEntities.map(
     (entity: Entity) => {
@@ -37,9 +38,9 @@ test('step data collection', async () => {
         username: expect.any(String),
         mfaEnabled: expect.any(Boolean),
         bot: expect.any(Boolean),
-        admin: expect.any(Boolean),
-        owner: expect.any(Boolean),
-        primaryOwner: expect.any(Boolean),
+        teamAdmin: expect.any(Boolean),
+        teamOwner: expect.any(Boolean),
+        primaryTeamOwner: expect.any(Boolean),
         restricted: expect.any(Boolean),
         ultraRestricted: expect.any(Boolean),
         updatedOn: expect.any(Number),
@@ -55,4 +56,16 @@ test('step data collection', async () => {
   );
 
   expect(context.jobState.collectedEntities).toEqual(expectedCollectedEntities);
+
+  const expectedCollectedRelationships: Relationship[] = context.jobState.collectedEntities.map(
+    (userEntity) =>
+      createTeamHasUserRelationship({
+        teamId: context.instance.config.teamId,
+        userEntity,
+      }),
+  );
+
+  expect(context.jobState.collectedRelationships).toEqual(
+    expectedCollectedRelationships,
+  );
 });

@@ -15,13 +15,14 @@ import {
   SLACK_CHANNEL_TYPE,
   toUserEntityKey,
   SLACK_USER_CLASS,
+  SLACK_CHANNEL_HAS_USER_RELATIONSHIP,
 } from '../../converters';
 import { SlackIntegrationConfig } from '../../type';
 
 const step: IntegrationStep<SlackIntegrationConfig> = {
   id: 'fetch-channels-with-users',
   name: 'Fetch channels and each user in the channel',
-  types: [SLACK_CHANNEL_TYPE],
+  types: [SLACK_CHANNEL_TYPE, SLACK_CHANNEL_HAS_USER_RELATIONSHIP],
   dependsOn: [fetchUsersStep.id],
   async executionHandler(context) {
     const { instance, jobState } = context;

@@ -2,6 +2,7 @@ import { IntegrationInvocationConfig } from '@jupiterone/integration-sdk-core';
 import instanceConfigFields from './instanceConfigFields';
 import validateInvocation from './validateInvocation';
 import getStepStartStates from './getStepStartStates';
+import teamStep from './steps/team';
 import fetchUsersStep from './steps/fetch-users';
 import fetchChannelsWithUsersStep from './steps/fetch-channels-with-users';
 import fetchChannels from './steps/fetch-channels';
@@ -11,5 +12,10 @@ export const invocationConfig: IntegrationInvocationConfig<SlackIntegrationConfi
   instanceConfigFields,
   validateInvocation,
   getStepStartStates,
-  integrationSteps: [fetchUsersStep, fetchChannelsWithUsersStep, fetchChannels],
+  integrationSteps: [
+    teamStep,
+    fetchUsersStep,
+    fetchChannelsWithUsersStep,
+    fetchChannels,
+  ],
 };
