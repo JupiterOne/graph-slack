@@ -88,7 +88,7 @@ export function createChannelEntity(
     entityData: {
       source: channel,
       assign: {
-        _key: toChannelEntityKey(teamId, channel),
+        _key: toChannelEntityKey({ teamId, channelId: channel.id }),
         _type: SLACK_CHANNEL_TYPE,
         _class: SLACK_CHANNEL_CLASS,
 
@@ -116,11 +116,14 @@ export function createChannelEntity(
   });
 }
 
-export function toChannelEntityKey(
-  teamId: string,
-  channel: SlackChannel,
-): string {
-  return `slack-channel:team_${teamId}:channel_${channel.id}`;
+export function toChannelEntityKey({
+  teamId,
+  channelId,
+}: {
+  teamId: string;
+  channelId: string;
+}): string {
+  return `slack-channel:team_${teamId}:channel_${channelId}`;
 }
 
 export function createTeamHasUserRelationship({
