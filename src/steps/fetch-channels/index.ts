@@ -1,5 +1,4 @@
 import { IntegrationStep } from '@jupiterone/integration-sdk-core';
-
 import { createSlackClient } from '../../provider';
 import { SlackChannel } from '../../provider/types';
 import { createChannelEntity, SLACK_CHANNEL_TYPE } from '../../converters';
@@ -12,12 +11,8 @@ const step: IntegrationStep<SlackIntegrationConfig> = {
   async executionHandler(context) {
     const { instance, jobState } = context;
     const client = createSlackClient(context);
-    const channels = await client.listAllChannels();
-
-    await jobState.addEntities(
-      channels.map((channel: SlackChannel) =>
-        createChannelEntity(instance.config.teamId, channel),
-      ),
+    await client.iterateChannels((channel: SlackChannel) =>
+      jobState.addEntity(createChannelEntity(instance.config.teamId, channel)),
     );
   },
 };

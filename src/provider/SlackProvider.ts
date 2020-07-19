@@ -28,8 +28,10 @@ export class SlackWebClient extends WebClient {
     super(token, options);
   }
 
-  async listAllUsers(options?: UsersListArguments): Promise<SlackUser[]> {
-    let members: SlackUser[] = [];
+  async iterateUsers(
+    callback: (user: SlackUser) => Promise<void>,
+    options?: UsersListArguments,
+  ): Promise<void> {
     let nextCursor: string | undefined = undefined;
 
     do {
@@ -38,17 +40,18 @@ export class SlackWebClient extends WebClient {
         ...options,
       });
 
-      members = members.concat(listUsersResponse.members);
+      for (const user of listUsersResponse.members) {
+        await callback(user);
+      }
+
       nextCursor = listUsersResponse.response_metadata.next_cursor;
     } while (nextCursor);
-
-    return members;
   }
 
-  async listAllChannels(
+  async iterateChannels(
+    callback: (channel: SlackChannel) => Promise<void>,
     options?: ConversationsListArguments,
-  ): Promise<SlackChannel[]> {
-    let channels: SlackChannel[] = [];
+  ): Promise<void> {
     let nextCursor: string | undefined = undefined;
 
     do {
@@ -57,15 +60,18 @@ export class SlackWebClient extends WebClient {
         ...options,
       });
 
-      channels = channels.concat(listChannelsResponse.channels);
+      for (const channel of listChannelsResponse.channels) {
+        await callback(channel);
+      }
+
       nextCursor = listChannelsResponse.response_metadata.next_cursor;
     } while (nextCursor);
-
-    return channels;
   }
 
-  async listAllChannelMembers(channel: string): Promise<string[]> {
-    let members: string[] = [];
+  async iterateChannelMembers(
+    channel: string,
+    callback: (member: string) => Promise<void>,
+  ): Promise<void> {
     let nextCursor: string | undefined = undefined;
 
     do {
@@ -74,10 +80,11 @@ export class SlackWebClient extends WebClient {
         cursor: nextCursor,
       });
 
-      members = members.concat(listChannelMembersResponse.members as string[]);
+      for (const member of listChannelMembersResponse.members) {
+        await callback(member);
+      }
+
       nextCursor = listChannelMembersResponse.response_metadata.next_cursor;
     } while (nextCursor);
-
-    return members;
   }
 }

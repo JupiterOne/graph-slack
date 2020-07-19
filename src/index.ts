@@ -4,7 +4,7 @@ import validateInvocation from './validateInvocation';
 import getStepStartStates from './getStepStartStates';
 import teamStep from './steps/team';
 import fetchUsersStep from './steps/fetch-users';
-import fetchChannelsWithUsersStep from './steps/fetch-channels-with-users';
+import fetchChannelMembersStep from './steps/fetch-channel-members';
 import fetchChannels from './steps/fetch-channels';
 import { SlackIntegrationConfig } from './type';
 
@@ -15,7 +15,7 @@ export const invocationConfig: IntegrationInvocationConfig<SlackIntegrationConfi
   integrationSteps: [
     teamStep,
     fetchUsersStep,
-    fetchChannelsWithUsersStep,
+    fetchChannelMembersStep,
     fetchChannels,
   ],
 };

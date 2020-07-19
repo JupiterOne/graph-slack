@@ -13,7 +13,7 @@ function getDefaultStepStartStates(overrideStates?: {
     'fetch-channels': {
       disabled: true,
     },
-    'fetch-channels-with-users': {
+    'fetch-channel-members': {
       disabled: true,
     },
     'fetch-users': {
@@ -68,7 +68,7 @@ test('should include "fetch-users" step if correct correct scopes provided', () 
   expect(getStepStartStates(context)).toEqual(expectedStepStartStates);
 });
 
-test('should include "fetch-channels-with-users" step if correct correct scopes provided', () => {
+test('should include "fetch-channel-members" step if correct correct scopes provided', () => {
   const context = createMockStepExecutionContext({
     partialInstanceConfig: {
       scopes: `${USERS_READ_SCOPE},${CHANNELS_READ_SCOPE}`,
@@ -76,7 +76,10 @@ test('should include "fetch-channels-with-users" step if correct correct scopes 
   });
 
   const expectedStepStartStates = getDefaultStepStartStates({
-    'fetch-channels-with-users': {
+    'fetch-channel-members': {
+      disabled: false,
+    },
+    'fetch-channels': {
       disabled: false,
     },
     'fetch-users': {
@@ -87,7 +90,7 @@ test('should include "fetch-channels-with-users" step if correct correct scopes 
   expect(getStepStartStates(context)).toEqual(expectedStepStartStates);
 });
 
-test('should disable "fetch-channels-with-users" step if "fetch-users" scopes are not set', () => {
+test('should disable "fetch-channel-members" step if "fetch-users" scopes are not set', () => {
   const context = createMockStepExecutionContext({
     partialInstanceConfig: {
       scopes: `${CHANNELS_READ_SCOPE}`,

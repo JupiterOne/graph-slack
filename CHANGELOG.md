@@ -18,3 +18,9 @@ and this project adheres to
 
 - Create a `slack_team` entity and a relationship between each `slack_user` and
   the `slack_team`.
+
+## 2.3.0 - 2020-07-19
+
+- Fix [#2](https://github.com/JupiterOne/graph-slack/issues/2). Switch to using
+  resource iteration approach when performing list all operations from Slack
+  API, which reduces overall memory usage.

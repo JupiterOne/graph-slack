@@ -1,5 +1,7 @@
-import { IntegrationStep } from '@jupiterone/integration-sdk-core';
-
+import {
+  IntegrationStep,
+  IntegrationStepExecutionContext,
+} from '@jupiterone/integration-sdk-core';
 import { createSlackClient } from '../../provider';
 import { SlackUser } from '../../provider/types';
 import {
@@ -17,25 +19,26 @@ const step: IntegrationStep<SlackIntegrationConfig> = {
   types: [SLACK_USER_TYPE, SLACK_TEAM_HAS_USER_RELATIONSHIP],
   dependsOn: [teamStep.id],
   async executionHandler(context) {
-    const { instance, jobState } = context;
-
     const client = createSlackClient(context);
-    const members = await client.listAllUsers();
-
-    const userEntities = members.map((user: SlackUser) =>
-      createUserEntity(instance.config.teamId, user),
-    );
-
-    await jobState.addEntities(userEntities);
-    await jobState.addRelationships(
-      userEntities.map((userEntity) =>
-        createTeamHasUserRelationship({
-          teamId: instance.config.teamId,
-          userEntity,
-        }),
-      ),
+    await client.iterateUsers((user: SlackUser) =>
+      addSlackUserEntity(context, user),
     );
   },
 };
 
 export default step;
+
+async function addSlackUserEntity(
+  context: IntegrationStepExecutionContext<SlackIntegrationConfig>,
+  user: SlackUser,
+): Promise<void> {
+  const { instance, jobState } = context;
+  const userEntity = createUserEntity(instance.config.teamId, user);
+  await jobState.addEntity(userEntity);
+  await jobState.addRelationship(
+    createTeamHasUserRelationship({
+      teamId: instance.config.teamId,
+      userEntity,
+    }),
+  );
+}

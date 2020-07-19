@@ -5,7 +5,7 @@ import {
 import { USERS_READ_SCOPE, CHANNELS_READ_SCOPE } from './provider';
 import teamStep from './steps/team';
 import fetchUsersStep from './steps/fetch-users';
-import fetchChannelsWithUsersStep from './steps/fetch-channels-with-users';
+import fetchChannelMembersStep from './steps/fetch-channel-members';
 import fetchChannels from './steps/fetch-channels';
 import { parseSlackScopes } from './util/slack';
 import { SlackIntegrationConfig } from './type';
@@ -43,20 +43,15 @@ export default function getStepStartStates(
     parseSlackScopes(executionContext.instance.config.scopes),
   );
 
-  const fetchChannelsWithUsersDisabled =
-    !scopes.has(CHANNELS_READ_SCOPE) || !scopes.has(USERS_READ_SCOPE);
-
   return {
     [teamStep.id]: { disabled: false },
     [fetchUsersStep.id]: { disabled: !scopes.has(USERS_READ_SCOPE) },
-    [fetchChannelsWithUsersStep.id]: {
-      disabled: fetchChannelsWithUsersDisabled,
+    [fetchChannelMembersStep.id]: {
+      disabled:
+        !scopes.has(CHANNELS_READ_SCOPE) || !scopes.has(USERS_READ_SCOPE),
     },
     [fetchChannels.id]: {
-      disabled:
-        // NOTE: This state only gets executed if we have permission to read
-        // channels, but do not have permission to read users
-        !scopes.has(CHANNELS_READ_SCOPE) || !fetchChannelsWithUsersDisabled,
+      disabled: !scopes.has(CHANNELS_READ_SCOPE),
     },
   };
 }

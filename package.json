@@ -1,6 +1,6 @@
 {
   "name": "@jupiterone/graph-slack",
-  "version": "2.2.0",
+  "version": "2.3.0",
   "description": "A graph conversion tool for https://slack.com",
   "license": "MPL-2.0",
   "main": "dist/index.js",
