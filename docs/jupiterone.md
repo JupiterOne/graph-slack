@@ -62,7 +62,7 @@ Steps to configuring a rule
 
 1. Navigate to the JupiterOne alert rule configuration page (e.g.
    https://apps.us.jupiterone.io/alerts/edit)
-1. Click the "Create Rule"
+1. Click "Create Rule"
 1. Click "Show Advanced" to open the advanced rule editor
 1. Configure a rule with the `SEND_SLACK_MESSAGE` action and specify the
    `integrationInstanceId` and `channels` properties with the value being the ID
