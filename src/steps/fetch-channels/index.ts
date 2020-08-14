@@ -11,9 +11,11 @@ const step: IntegrationStep<SlackIntegrationConfig> = {
   async executionHandler(context) {
     const { instance, jobState } = context;
     const client = createSlackClient(context);
-    await client.iterateChannels((channel: SlackChannel) =>
-      jobState.addEntity(createChannelEntity(instance.config.teamId, channel)),
-    );
+    await client.iterateChannels(async (channel: SlackChannel) => {
+      await jobState.addEntity(
+        createChannelEntity(instance.config.teamId, channel),
+      );
+    });
   },
 };
 
