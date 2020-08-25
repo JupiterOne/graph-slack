@@ -1,6 +1,6 @@
 {
   "name": "@jupiterone/graph-slack",
-  "version": "2.4.1",
+  "version": "3.0.0",
   "description": "A graph conversion tool for https://slack.com",
   "license": "MPL-2.0",
   "main": "dist/index.js",
@@ -29,9 +29,9 @@
     "@slack/web-api": "^5.10.0"
   },
   "devDependencies": {
-    "@jupiterone/integration-sdk-core": "^2.10.0",
-    "@jupiterone/integration-sdk-dev-tools": "^2.10.0",
-    "@jupiterone/integration-sdk-testing": "^2.10.0",
+    "@jupiterone/integration-sdk-core": "^3.0.0",
+    "@jupiterone/integration-sdk-dev-tools": "^3.0.0",
+    "@jupiterone/integration-sdk-testing": "^3.0.0",
     "@types/jest": "^25.2.1",
     "@types/node": "^13.11.1",
     "@types/uuid": "^8.0.0",
@@ -52,6 +52,6 @@
     "uuid": "^8.2.0"
   },
   "peerDependencies": {
-    "@jupiterone/integration-sdk-core": "^2.10.0"
+    "@jupiterone/integration-sdk-core": "^3.0.0"
   }
 }

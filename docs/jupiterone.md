@@ -116,23 +116,41 @@ Steps to configuring a rule
 }
 ```
 
+<!-- {J1_DOCUMENTATION_MARKER_START} -->
+<!--
+********************************************************************************
+NOTE: ALL OF THE FOLLOWING DOCUMENTATION IS GENERATED USING THE
+"j1-integration document" COMMAND. DO NOT EDIT BY HAND! PLEASE SEE THE DEVELOPER
+DOCUMENTATION FOR USAGE INFORMATION:
+
+https://github.com/JupiterOne/sdk/blob/master/docs/integrations/development.md
+********************************************************************************
+-->
+
 ## Data Model
 
 ### Entities
 
-The following entity resources are ingested when the integration runs:
+The following entities are created:
 
-| Resources | \_type of the Entity | \_class of the Entity |
-| --------- | -------------------- | --------------------- |
-| Team      | `slack_team`         | `Account`             |
-| User      | `slack_user`         | `User`                |
-| Channel   | `slack_channel`      | `Channel`             |
+| Resources | Entity `_type`  | Entity `_class` |
+| --------- | --------------- | --------------- |
+| Channel   | `slack_channel` | `Channel`       |
+| Team      | `slack_team`    | `Account`       |
+| User      | `slack_user`    | `User`          |
 
 ### Relationships
 
 The following relationships are created/mapped:
 
-| From            | Edge    | To           |
-| --------------- | ------- | ------------ |
-| `slack_team`    | **HAS** | `slack_user` |
-| `slack_channel` | **HAS** | `slack_user` |
+| Source Entity `_type` | Relationship `_class` | Target Entity `_type` |
+| --------------------- | --------------------- | --------------------- |
+| `slack_team`          | **HAS**               | `slack_user`          |
+| `slack_channel`       | **HAS**               | `slack_user`          |
+
+<!--
+********************************************************************************
+END OF GENERATED DOCUMENTATION AFTER BELOW MARKER
+********************************************************************************
+-->
+<!-- {J1_DOCUMENTATION_MARKER_END} -->

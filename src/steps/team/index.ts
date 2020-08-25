@@ -1,11 +1,22 @@
 import { IntegrationStep } from '@jupiterone/integration-sdk-core';
-import { SLACK_TEAM_TYPE, createTeamEntity } from '../../converters';
+import {
+  SLACK_TEAM_TYPE,
+  createTeamEntity,
+  SLACK_TEAM_CLASS,
+} from '../../converters';
 import { SlackIntegrationConfig } from '../../type';
 
 const step: IntegrationStep<SlackIntegrationConfig> = {
   id: 'team',
   name: 'Ingest Slack Team',
-  types: [SLACK_TEAM_TYPE],
+  entities: [
+    {
+      resourceName: 'Team',
+      _type: SLACK_TEAM_TYPE,
+      _class: SLACK_TEAM_CLASS,
+    },
+  ],
+  relationships: [],
   async executionHandler(context) {
     const {
       instance: { config },
