@@ -1,14 +1,17 @@
 import {
   IntegrationStep,
   IntegrationStepExecutionContext,
+  RelationshipClass,
 } from '@jupiterone/integration-sdk-core';
 import { createSlackClient } from '../../provider';
 import { SlackUser } from '../../provider/types';
 import {
   createUserEntity,
+  SLACK_TEAM_TYPE,
   SLACK_USER_TYPE,
   createTeamHasUserRelationship,
   SLACK_TEAM_HAS_USER_RELATIONSHIP,
+  SLACK_USER_CLASS,
 } from '../../converters';
 import { SlackIntegrationConfig } from '../../type';
 import teamStep from '../team';
@@ -16,7 +19,21 @@ import teamStep from '../team';
 const step: IntegrationStep<SlackIntegrationConfig> = {
   id: 'fetch-users',
   name: 'Fetch Users',
-  types: [SLACK_USER_TYPE, SLACK_TEAM_HAS_USER_RELATIONSHIP],
+  entities: [
+    {
+      resourceName: 'User',
+      _type: SLACK_USER_TYPE,
+      _class: SLACK_USER_CLASS,
+    },
+  ],
+  relationships: [
+    {
+      _class: RelationshipClass.HAS,
+      _type: SLACK_TEAM_HAS_USER_RELATIONSHIP,
+      sourceType: SLACK_TEAM_TYPE,
+      targetType: SLACK_USER_TYPE,
+    },
+  ],
   dependsOn: [teamStep.id],
   async executionHandler(context) {
     const client = createSlackClient(context);

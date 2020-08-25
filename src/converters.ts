@@ -2,7 +2,8 @@ import { SlackChannel, SlackUser } from './provider/types';
 import {
   createIntegrationEntity,
   Entity,
-  createIntegrationRelationship,
+  createDirectRelationship,
+  RelationshipClass,
   Relationship,
 } from '@jupiterone/integration-sdk-core';
 
@@ -133,8 +134,8 @@ export function createTeamHasUserRelationship({
   teamId: string;
   userEntity: Entity;
 }): Relationship {
-  return createIntegrationRelationship({
-    _class: 'HAS',
+  return createDirectRelationship({
+    _class: RelationshipClass.HAS,
     fromKey: toTeamEntityKey(teamId),
     fromType: SLACK_TEAM_TYPE,
     toType: SLACK_USER_CLASS,

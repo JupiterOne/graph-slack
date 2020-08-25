@@ -1,6 +1,7 @@
 import {
   IntegrationStep,
-  createIntegrationRelationship,
+  createDirectRelationship,
+  RelationshipClass,
   Entity,
   IntegrationStepExecutionContext,
 } from '@jupiterone/integration-sdk-core';
@@ -14,13 +15,29 @@ import {
   toUserEntityKey,
   SLACK_USER_CLASS,
   SLACK_CHANNEL_HAS_USER_RELATIONSHIP,
+  SLACK_CHANNEL_CLASS,
+  SLACK_USER_TYPE,
 } from '../../converters';
 import { SlackIntegrationConfig } from '../../type';
 
 const step: IntegrationStep<SlackIntegrationConfig> = {
   id: 'fetch-channel-members',
   name: 'Fetch channels and each user in the channel',
-  types: [SLACK_CHANNEL_TYPE, SLACK_CHANNEL_HAS_USER_RELATIONSHIP],
+  entities: [
+    {
+      resourceName: 'Channel',
+      _type: SLACK_CHANNEL_TYPE,
+      _class: SLACK_CHANNEL_CLASS,
+    },
+  ],
+  relationships: [
+    {
+      _class: RelationshipClass.HAS,
+      _type: SLACK_CHANNEL_HAS_USER_RELATIONSHIP,
+      sourceType: SLACK_CHANNEL_TYPE,
+      targetType: SLACK_USER_TYPE,
+    },
+  ],
   dependsOn: [fetchChannelsStep.id, fetchUsersStep.id],
   async executionHandler(context) {
     const { instance, jobState } = context;
@@ -65,8 +82,8 @@ async function addChannelUserRelationships({
 
   await client.iterateChannelMembers(channelId, (channelMemberId: string) =>
     jobState.addRelationship(
-      createIntegrationRelationship({
-        _class: 'HAS',
+      createDirectRelationship({
+        _class: RelationshipClass.HAS,
         fromKey: toChannelEntityKey({ teamId, channelId }),
         fromType: SLACK_CHANNEL_TYPE,
         toType: SLACK_USER_CLASS,
