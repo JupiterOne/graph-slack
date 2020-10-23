@@ -145,8 +145,8 @@ The following relationships are created/mapped:
 
 | Source Entity `_type` | Relationship `_class` | Target Entity `_type` |
 | --------------------- | --------------------- | --------------------- |
-| `slack_team`          | **HAS**               | `slack_user`          |
 | `slack_channel`       | **HAS**               | `slack_user`          |
+| `slack_team`          | **HAS**               | `slack_user`          |
 
 <!--
 ********************************************************************************

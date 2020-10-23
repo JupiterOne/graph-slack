@@ -1,3 +1,4 @@
+import { IntegrationLogger } from '@jupiterone/integration-sdk-core';
 import {
   WebClient,
   WebClientOptions,
@@ -24,8 +25,15 @@ export interface ListChannelsResult extends WebAPICallResult {
 }
 
 export class SlackWebClient extends WebClient {
-  constructor(token?: string, options?: WebClientOptions) {
+  private integrationLogger: IntegrationLogger;
+
+  constructor(
+    logger: IntegrationLogger,
+    token?: string,
+    options?: WebClientOptions,
+  ) {
     super(token, options);
+    this.integrationLogger = logger;
   }
 
   async iterateUsers(
@@ -33,6 +41,7 @@ export class SlackWebClient extends WebClient {
     options?: UsersListArguments,
   ): Promise<void> {
     let nextCursor: string | undefined = undefined;
+    let totalUsers = 0;
 
     do {
       const listUsersResponse = await this.users.list({
@@ -40,12 +49,28 @@ export class SlackWebClient extends WebClient {
         ...options,
       });
 
+      const numUsersOnPage = listUsersResponse.members.length;
+      this.integrationLogger.info(
+        {
+          users: numUsersOnPage,
+        },
+        'Page of users',
+      );
+
       for (const user of listUsersResponse.members) {
         await callback(user);
       }
 
       nextCursor = listUsersResponse.response_metadata.next_cursor;
+      totalUsers += listUsersResponse.members.length;
     } while (nextCursor);
+
+    this.integrationLogger.info(
+      {
+        totalUsers,
+      },
+      'Total users iterated',
+    );
   }
 
   async iterateChannels(
@@ -53,6 +78,7 @@ export class SlackWebClient extends WebClient {
     options?: ConversationsListArguments,
   ): Promise<void> {
     let nextCursor: string | undefined = undefined;
+    let totalChannels = 0;
 
     do {
       const listChannelsResponse = await this.conversations.list({
@@ -60,12 +86,28 @@ export class SlackWebClient extends WebClient {
         ...options,
       });
 
+      const numChannelsOnPage = listChannelsResponse.channels.length;
+      this.integrationLogger.info(
+        {
+          channels: numChannelsOnPage,
+        },
+        'Page of channels',
+      );
+
       for (const channel of listChannelsResponse.channels) {
         await callback(channel);
       }
 
       nextCursor = listChannelsResponse.response_metadata.next_cursor;
+      totalChannels += numChannelsOnPage;
     } while (nextCursor);
+
+    this.integrationLogger.info(
+      {
+        totalChannels,
+      },
+      'Total channels iterated',
+    );
   }
 
   async iterateChannelMembers(
@@ -73,6 +115,7 @@ export class SlackWebClient extends WebClient {
     callback: (member: string) => Promise<void>,
   ): Promise<void> {
     let nextCursor: string | undefined = undefined;
+    let totalChannelMembers = 0;
 
     do {
       const listChannelMembersResponse = await this.conversations.members({
@@ -80,11 +123,27 @@ export class SlackWebClient extends WebClient {
         cursor: nextCursor,
       });
 
+      const numChannelMembersOnPage = listChannelMembersResponse.members.length;
+      this.integrationLogger.info(
+        {
+          members: numChannelMembersOnPage,
+        },
+        'Page of channel members',
+      );
+
       for (const member of listChannelMembersResponse.members) {
         await callback(member);
       }
 
       nextCursor = listChannelMembersResponse.response_metadata.next_cursor;
+      totalChannelMembers += numChannelMembersOnPage;
     } while (nextCursor);
+
+    this.integrationLogger.info(
+      {
+        totalChannelMembers,
+      },
+      'Total channel members iterated',
+    );
   }
 }
