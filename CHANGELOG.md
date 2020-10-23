@@ -8,6 +8,11 @@ and this project adheres to
 
 ## [Unreleased]
 
+### Changed
+
+- Updated rate limit settings
+- Additional logging around requests
+
 ## 3.0.0 - 2020-08-25
 
 ### Changed

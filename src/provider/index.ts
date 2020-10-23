@@ -13,18 +13,12 @@ export function createSlackClient(
   context: IntegrationExecutionContext<SlackIntegrationConfig>,
 ): SlackWebClient {
   const slackWebClient = new SlackWebClient(
+    context.logger,
     context.instance.config.accessToken,
-    {
-      retryConfig: {
-        retries: 10,
-        minTimeout: 200,
-        maxTimeout: 1000,
-      },
-    },
   );
 
   slackWebClient.on(WebClientEvent.RATE_LIMITED, (numSeconds) => {
-    context.logger.warn(
+    context.logger.info(
       {
         numSeconds,
       },

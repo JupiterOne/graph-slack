@@ -10,14 +10,14 @@ test('should log error message when rate limited', () => {
   const context = createMockStepExecutionContext<SlackIntegrationConfig>();
 
   const mockLogger = createMockIntegrationLogger();
-  const warnFn = (mockLogger.warn = jest.fn());
+  const infoFn = (mockLogger.info = jest.fn());
   context.logger = mockLogger;
 
   const slackClient = createSlackClient(context);
   slackClient.emit(WebClientEvent.RATE_LIMITED, 10);
 
-  expect(warnFn).toHaveBeenCalledTimes(1);
-  expect(warnFn).toHaveBeenCalledWith(
+  expect(infoFn).toHaveBeenCalledTimes(1);
+  expect(infoFn).toHaveBeenCalledWith(
     {
       numSeconds: 10,
     },

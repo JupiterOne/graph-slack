@@ -26,12 +26,12 @@
   },
   "dependencies": {
     "@lifeomic/attempt": "^3.0.0",
-    "@slack/web-api": "^5.10.0"
+    "@slack/web-api": "^5.13.0"
   },
   "devDependencies": {
-    "@jupiterone/integration-sdk-core": "^3.0.0",
-    "@jupiterone/integration-sdk-dev-tools": "^3.0.0",
-    "@jupiterone/integration-sdk-testing": "^3.0.0",
+    "@jupiterone/integration-sdk-core": "^3.6.0",
+    "@jupiterone/integration-sdk-dev-tools": "^3.6.0",
+    "@jupiterone/integration-sdk-testing": "^3.6.0",
     "@types/jest": "^25.2.1",
     "@types/node": "^13.11.1",
     "@types/uuid": "^8.0.0",
