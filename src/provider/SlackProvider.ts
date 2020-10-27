@@ -46,6 +46,12 @@ export class SlackWebClient extends WebClient {
     do {
       const listUsersResponse = await this.users.list({
         cursor: nextCursor,
+        // Recommended limit max here: https://api.slack.com/methods/users.list
+        //
+        // If no limit is specified, then Slack will attempt to deliver the
+        // entire set. For large organizations, you may receive a "limit_required"
+        // error in the response or a 500 if no limit is specified.
+        limit: 200,
         ...options,
       });
 
@@ -83,6 +89,10 @@ export class SlackWebClient extends WebClient {
     do {
       const listChannelsResponse = await this.conversations.list({
         cursor: nextCursor,
+        // Recommended limit max here: https://api.slack.com/methods/conversations.list
+        //
+        // If no limit is specified, then Slack will default to 100.
+        limit: 200,
         ...options,
       });
 
@@ -121,6 +131,10 @@ export class SlackWebClient extends WebClient {
       const listChannelMembersResponse = await this.conversations.members({
         channel,
         cursor: nextCursor,
+        // Recommended limit max here: https://api.slack.com/methods/conversations.members
+        //
+        // If no limit is specified, then Slack will default to 100.
+        limit: 200,
       });
 
       const numChannelMembersOnPage = listChannelMembersResponse.members.length;
