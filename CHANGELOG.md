@@ -8,6 +8,10 @@ and this project adheres to
 
 ## [Unreleased]
 
+### Changed
+
+- Updated docs to include note about private Slack channel message delivery
+
 ## 3.2.0 - 2020-10-27
 
 ### Changed
