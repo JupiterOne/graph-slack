@@ -8,6 +8,12 @@ and this project adheres to
 
 ## [Unreleased]
 
+## 3.2.0 - 2020-10-27
+
+### Changed
+
+- Updated API `limit` settings
+
 ## 3.1.0 - 2020-10-23
 
 ### Changed
