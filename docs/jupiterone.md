@@ -32,6 +32,7 @@ ingesting relevant information and send notifications via the
    member of. Without one or both of `chat:write` and `chat:write.public`
    scopes, users _will not_ be able to configure JupiterOne alert rules with a
    Slack notification.
+
 1. Once the relevant form information has been filled out, submitting the form
    will redirect the user to Slack to authorize the requested scopes.
 1. Review the request scopes, click "Allow", and then you will be redirected
@@ -39,7 +40,7 @@ ingesting relevant information and send notifications via the
 
 ### JupiterOne Alert Rule Slack Notification
 
-NOTE: For detailed instructions on how to configure JupiterOne Alert Rules,
+**NOTE**: For detailed instructions on how to configure JupiterOne Alert Rules,
 please see the
 [JupiterOne Alert Rule configuration documentation](https://support.jupiterone.io/hc/en-us/articles/360022720474-6-9-Alerts-and-Alert-Rules).
 Additionally, see the
@@ -68,6 +69,10 @@ Steps to configuring a rule
    `integrationInstanceId` and `channels` properties with the value being the ID
    specified in the URL above. Example alert rule configuration with the
    `SEND_SLACK_MESSAGE` action:
+
+**NOTE**: In order for the JupiterOne Slack bot to deliever messages to a
+private Slack channel, the JupiterOne Slack bot must be a member of that private
+channel.
 
 ```json
 {
