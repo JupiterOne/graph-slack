@@ -8,6 +8,18 @@ and this project adheres to
 
 ## [Unreleased]
 
+## 3.3.0 - 2020-10-27
+
+### Added
+
+- Added `active` property to `slack_user`.
+
+Example query to find all deactivated Slack users:
+
+```
+find slack_user with active != true
+```
+
 ### Changed
 
 - Updated docs to include note about private Slack channel message delivery

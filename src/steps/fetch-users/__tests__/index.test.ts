@@ -43,6 +43,7 @@ test('step data collection', async () => {
         primaryTeamOwner: expect.any(Boolean),
         restricted: expect.any(Boolean),
         ultraRestricted: expect.any(Boolean),
+        active: expect.any(Boolean),
         updatedOn: expect.any(Number),
         id: expect.any(String),
         name: expect.any(String),

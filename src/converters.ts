@@ -65,6 +65,7 @@ export function createUserEntity(teamId: string, user: SlackUser): Entity {
         primaryTeamOwner: user.is_primary_owner === true,
         restricted: user.is_restricted === true,
         ultraRestricted: user.is_ultra_restricted === true,
+        active: user.deleted !== true,
         updatedOn: user.updated,
       },
     },
