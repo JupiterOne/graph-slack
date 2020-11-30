@@ -8,6 +8,15 @@ and this project adheres to
 
 ## [Unreleased]
 
+## 3.4.1 - 2020-11-24
+
+- Added retries for `slack_webapi_platform_error` error codes. The Slack Client
+  includes retry configurations, but aside from 429s, the client does not retry
+  any non-200 error codes. Some integrations have seen very intermittent non-429
+  errors, but we don't actually know much about what is causing them. Retrying
+  these errors should reduce our intermittent failures and log some insights as
+  to what types of errors these represent.
+
 ## 3.4.0 - 2020-10-29
 
 ### Changed
