@@ -32,7 +32,6 @@ ingesting relevant information and send notifications via the
    member of. Without one or both of `chat:write` and `chat:write.public`
    scopes, users _will not_ be able to configure JupiterOne alert rules with a
    Slack notification.
-
 1. Once the relevant form information has been filled out, submitting the form
    will redirect the user to Slack to authorize the requested scopes.
 1. Review the request scopes, click "Allow", and then you will be redirected
@@ -40,7 +39,7 @@ ingesting relevant information and send notifications via the
 
 ### JupiterOne Alert Rule Slack Notification
 
-**NOTE**: For detailed instructions on how to configure JupiterOne Alert Rules,
+NOTE: For detailed instructions on how to configure JupiterOne Alert Rules,
 please see the
 [JupiterOne Alert Rule configuration documentation](https://support.jupiterone.io/hc/en-us/articles/360022720474-6-9-Alerts-and-Alert-Rules).
 Additionally, see the
@@ -48,114 +47,30 @@ Additionally, see the
 for technical details on alert rule/action properties.
 
 JupiterOne can deliver Slack messages directly to any channel or to specific
-users in a Slack team once the JupiterOne slack integration has been configured
-and the Slack app has been installed into the team.
+users in a Slack Channel once the JupiterOne Slack integration has been configured
+via the JupiterOne web app. This will prompt the JupiterOne Slack app to be installed
+in your Workspace.
 
-Once the integration has been configured, copy the integration ID from the
-integration instance page. For example, if the integration instance URL looks
-like this:
-
-`https://apps.us.jupiterone.io/integrations/slack/configuration/d1549f40-b9fd-447a-bec5-4360c9ca7e8c`
-
-Then the integration instance ID is `d1549f40-b9fd-447a-bec5-4360c9ca7e8c`.
-
-Steps to configuring a rule
-
-1. Navigate to the JupiterOne alert rule configuration page (e.g.
-   https://apps.us.jupiterone.io/alerts/edit)
-1. Click "Create Rule"
-1. Click "Show Advanced" to open the advanced rule editor
-1. Configure a rule with the `SEND_SLACK_MESSAGE` action and specify the
-   `integrationInstanceId` and `channels` properties with the value being the ID
-   specified in the URL above. Example alert rule configuration with the
-   `SEND_SLACK_MESSAGE` action:
-
-**NOTE**: In order for the JupiterOne Slack bot to deliever messages to a
-private Slack channel, the JupiterOne Slack bot must be a member of that private
-channel.
-
-```json
-{
-  "name": "slack-alert-test",
-  "description": "Testing Slack Messages",
-  "specVersion": 1,
-  "pollingInterval": "ONE_DAY",
-  "templates": {
-    "slackBody": "JupiterOne Account: {{item.displayName}}\n\n"
-  },
-  "question": {
-    "queries": [
-      {
-        "name": "query0",
-        "query": "Find DataStore with classification=('critical' or 'sensitive' or 'confidential' or 'restricted') and encrypted!=true",
-        "version": "v1"
-      }
-    ]
-  },
-  "operations": [
-    {
-      "when": {
-        "type": "FILTER",
-        "specVersion": 1,
-        "condition": "{{queries.query0.total > 0}}"
-      },
-      "actions": [
-        {
-          "targetValue": "HIGH",
-          "type": "SET_PROPERTY",
-          "targetProperty": "alertLevel"
-        },
-        {
-          "type": "CREATE_ALERT"
-        },
-        {
-          "integrationInstanceId": "d1549f40-b9fd-447a-bec5-4360c9ca7e8c",
-          "channels": ["#random"],
-          "type": "SEND_SLACK_MESSAGE",
-          "body": "{{queries.query0.data|mapTemplate('slackBody')|join(' ')}}"
-        }
-      ]
-    }
-  ],
-  "outputs": ["queries.query0.total", "alertLevel"]
-}
-```
-
-<!-- {J1_DOCUMENTATION_MARKER_START} -->
-<!--
-********************************************************************************
-NOTE: ALL OF THE FOLLOWING DOCUMENTATION IS GENERATED USING THE
-"j1-integration document" COMMAND. DO NOT EDIT BY HAND! PLEASE SEE THE DEVELOPER
-DOCUMENTATION FOR USAGE INFORMATION:
-
-https://github.com/JupiterOne/sdk/blob/master/docs/integrations/development.md
-********************************************************************************
--->
+Be sure to include specify the channel in the format `#channel`.
+You can alert to private channels as well if you have invited the JupiterOne Slack app to the private channel as well.
 
 ## Data Model
 
 ### Entities
 
-The following entities are created:
+The following entity resources are ingested when the integration runs:
 
-| Resources | Entity `_type`  | Entity `_class` |
-| --------- | --------------- | --------------- |
-| Channel   | `slack_channel` | `Channel`       |
-| Team      | `slack_team`    | `Account`       |
-| User      | `slack_user`    | `User`          |
+| Resources | \_type of the Entity | \_class of the Entity |
+| --------- | -------------------- | --------------------- |
+| Team      | `slack_team`         | `Account`             |
+| User      | `slack_user`         | `User`                |
+| Channel   | `slack_channel`      | `Channel`             |
 
 ### Relationships
 
 The following relationships are created/mapped:
 
-| Source Entity `_type` | Relationship `_class` | Target Entity `_type` |
-| --------------------- | --------------------- | --------------------- |
-| `slack_channel`       | **HAS**               | `slack_user`          |
-| `slack_team`          | **HAS**               | `slack_user`          |
-
-<!--
-********************************************************************************
-END OF GENERATED DOCUMENTATION AFTER BELOW MARKER
-********************************************************************************
--->
-<!-- {J1_DOCUMENTATION_MARKER_END} -->
+| From            | Edge    | To           |
+| --------------- | ------- | ------------ |
+| `slack_team`    | **HAS** | `slack_user` |
+| `slack_channel` | **HAS** | `slack_user` |
