@@ -43,6 +43,11 @@ test('step data collection', async () => {
         isPrivate: expect.any(Boolean),
         isMpim: expect.any(Boolean),
 
+        public: expect.any(Boolean),
+        private: expect.any(Boolean),
+        active: expect.any(Boolean),
+        archived: expect.any(Boolean),
+
         topic: expect.any(String),
         topicCreator: expect.any(String),
         topicLastSet: expect.any(Number),

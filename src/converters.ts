@@ -55,11 +55,19 @@ export function createUserEntity(teamId: string, user: SlackUser): Entity {
 
         // NOTE: Slack _does not_ recommend the use of `user.name` and has moved
         // away from the concept of "usernames" to "display names".
-        username: user.id,
-        displayName: user.id,
+        userId: user.id,
+        username: user.name,
+        realName: user.real_name,
+        displayName:
+          /* istanbul ignore next */
+          (!!user.profile.display_name && user.profile.display_name) ||
+          (!!user.real_name && user.real_name) ||
+          (!!user.name && user.name) ||
+          user.id,
         email: user.profile.email,
         bot: user.profile.is_bot === true,
         mfaEnabled: user.has_2fa === true,
+        admin: user.is_admin === true || user.is_owner === true,
         teamAdmin: user.is_admin === true,
         teamOwner: user.is_owner === true,
         primaryTeamOwner: user.is_primary_owner === true,
@@ -106,6 +114,10 @@ export function createChannelEntity(
         isMember: channel.is_member === true,
         isPrivate: channel.is_private === true,
         isMpim: channel.is_mpim === true,
+        active: channel.is_archived !== true,
+        archived: channel.is_archived === true,
+        private: channel.is_private === true,
+        public: channel.is_private !== true,
         topic: channel.topic.value,
         topicCreator: channel.topic.creator,
         topicLastSet: channel.topic.last_set,
