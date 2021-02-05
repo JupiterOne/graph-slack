@@ -8,7 +8,7 @@ and this project adheres to
 
 ## [Unreleased]
 
-## 3.4.2 - 2021-02-05
+## 3.5.0 - 2021-02-05
 
 - Changed `displayName` of `slack_user` to use `display_name` or `real_name` or
   `name`, fallback to `id` only when those are undefined.
