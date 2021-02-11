@@ -48,7 +48,8 @@ test('should throw if "scopes" not provided in execution config', () => {
     partialInstanceConfig: { scopes: undefined },
   });
 
-  delete context.instance.config.scopes;
+  // Latest version of TS do not allow deleting properties that are not optional
+  delete (context as any).instance.config.scopes;
   expect(() => getStepStartStates(context)).toThrowError(
     'Configuration option "scopes" is missing on the integration instance config',
   );
