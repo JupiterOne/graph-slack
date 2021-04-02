@@ -6,6 +6,28 @@ JupiterOne provides a managed integration with Slack. The integration connects
 directly to Slack APIs using the JupiterOne Slack app to obtain information and
 allows delivery of Slack messages to specific channels.
 
+## Slack + JupiterOne Integration Benefits
+
+- Visualize Slack teams, channels, and users in the JupiterOne graph.
+- Map Slack users to employees in your JupiterOne account.
+- Map Slack users to the channels they have access to.
+- Monitor changes to Slack teams, channels, and users using JupiterOne alerts.
+- Create issues within Slack channels or directly to Slack users from JupiterOne
+  alerts.
+
+## How it Works
+
+- JupiterOne periodically fetches Slack teams, channels, and users to update the graph.
+- Write JupiterOne queries to review and monitor updates to the graph.
+- Configure alerts to use the Slack workflow option to notify a channel or user.
+- Configure alerts to take action when the JupiterOne graph changes.
+
+## Requirements
+
+- JupiterOne requires the JupiterOne Slack app be installed in your Slack 
+account with the requested OAuth scopes selected. 
+- You must have permission in JupiterOne to install new integrations.
+
 ## Setup
 
 ### Integration Configuration
