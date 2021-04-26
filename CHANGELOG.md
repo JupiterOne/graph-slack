@@ -8,6 +8,12 @@ and this project adheres to
 
 ## [Unreleased]
 
+## Changed
+
+- Upgraded all npm packages
+- Removed unused npm packages
+- Fix audits
+
 ## 3.7.0 - 2021-03-19
 
 - Add `emailDomain` property to `slack_user`
