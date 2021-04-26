@@ -1,6 +1,7 @@
 import { IntegrationInstanceConfigFieldMap } from '@jupiterone/integration-sdk-core';
+import { SlackIntegrationConfig } from './type';
 
-const instanceConfigFields: IntegrationInstanceConfigFieldMap = {
+const instanceConfigFields: IntegrationInstanceConfigFieldMap<SlackIntegrationConfig> = {
   accessToken: {
     type: 'string',
     mask: true,
