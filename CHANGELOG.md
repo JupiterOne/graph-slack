@@ -8,7 +8,9 @@ and this project adheres to
 
 ## [Unreleased]
 
-## Changed
+## 3.8.0 - 2021-04-26
+
+### Changed
 
 - Upgraded all npm packages
 - Removed unused npm packages
