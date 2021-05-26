@@ -43,6 +43,18 @@ export function toTeamEntityKey(teamId: string): string {
 }
 
 export function createUserEntity(teamId: string, user: SlackUser): Entity {
+  let userType = 'user';
+  /* istanbul ignore next */
+  if (user.is_owner === true) {
+    userType = 'owner';
+  } else if (user.is_admin === true) {
+    userType = 'admin';
+  } else if (user.is_bot) {
+    userType = 'bot';
+  } else if (user.is_app_user) {
+    userType = 'app';
+  }
+
   return createIntegrationEntity({
     entityData: {
       source: user,
@@ -77,6 +89,7 @@ export function createUserEntity(teamId: string, user: SlackUser): Entity {
         ultraRestricted: user.is_ultra_restricted === true,
         active: user.deleted !== true,
         updatedOn: user.updated,
+        userType,
       },
     },
   });

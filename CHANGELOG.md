@@ -8,6 +8,11 @@ and this project adheres to
 
 ## [Unreleased]
 
+## 3.10.0 - 2021-05-25
+
+- Added `userType` property to `slack_user`. Possible values include: `user`,
+  `admin`, `owner`, `bot`, `app`.
+
 ## 3.9.0 - 2021-05-25
 
 - Fixed `bot` property on `slack_user`
