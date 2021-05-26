@@ -8,6 +8,11 @@ and this project adheres to
 
 ## [Unreleased]
 
+## 3.9.0 - 2021-05-25
+
+- Fixed `bot` property on `slack_user`
+- Added `appUser` property
+
 ## 3.8.0 - 2021-04-26
 
 ### Changed
