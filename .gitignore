@@ -6,3 +6,4 @@ dist/
 .eslintcache
 coverage/
 yarn-error.log
+tsconfig.tsbuildinfo
