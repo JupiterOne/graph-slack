@@ -8,6 +8,11 @@ and this project adheres to
 
 ## [Unreleased]
 
+### Changed
+
+- Upgraded all npm packages
+- Updated build config to only run on Node 14
+
 ## 3.10.0 - 2021-05-25
 
 - Added `userType` property to `slack_user`. Possible values include: `user`,
