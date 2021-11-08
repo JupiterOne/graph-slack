@@ -8,6 +8,8 @@ and this project adheres to
 
 ## [Unreleased]
 
+## 4.0.0 - 2021-11-08
+
 ### Changed
 
 - Upgraded all npm packages
