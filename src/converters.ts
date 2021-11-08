@@ -55,6 +55,8 @@ export function createUserEntity(teamId: string, user: SlackUser): Entity {
     userType = 'app';
   }
 
+  const emailDomain = user.profile.email?.split('@').pop();
+
   return createIntegrationEntity({
     entityData: {
       source: user,
@@ -77,7 +79,7 @@ export function createUserEntity(teamId: string, user: SlackUser): Entity {
           (!!user.name && user.name) ||
           user.id,
         email: user.profile.email,
-        emailDomain: user.profile.email?.split('@').pop(),
+        emailDomain: emailDomain && [emailDomain],
         bot: user.is_bot === true,
         appUser: user.is_app_user === true,
         mfaEnabled: user.has_2fa === true,
