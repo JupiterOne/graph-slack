@@ -31,8 +31,8 @@ test('step data collection', async () => {
   expect(context.jobState.collectedEntities.length).toBeGreaterThan(0);
   expect(context.jobState.collectedRelationships.length).toBeGreaterThan(0);
 
-  const expectedCollectedEntities: Entity[] = context.jobState.collectedEntities.map(
-    (entity: Entity) => {
+  const expectedCollectedEntities: Entity[] =
+    context.jobState.collectedEntities.map((entity: Entity) => {
       return expect.objectContaining({
         ...entity,
         username: expect.any(String),
@@ -55,18 +55,17 @@ test('step data collection', async () => {
         _rawData: expect.any(Array),
         displayName: expect.any(String),
       });
-    },
-  );
+    });
 
   expect(context.jobState.collectedEntities).toEqual(expectedCollectedEntities);
 
-  const expectedCollectedRelationships: Relationship[] = context.jobState.collectedEntities.map(
-    (userEntity) =>
+  const expectedCollectedRelationships: Relationship[] =
+    context.jobState.collectedEntities.map((userEntity) =>
       createTeamHasUserRelationship({
         teamId: context.instance.config.teamId,
         userEntity,
       }),
-  );
+    );
 
   expect(context.jobState.collectedRelationships).toEqual(
     expectedCollectedRelationships,

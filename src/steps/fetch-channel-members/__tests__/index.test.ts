@@ -34,8 +34,8 @@ test('step data collection', async () => {
 
   expect(context.jobState.collectedRelationships.length).toBeGreaterThan(0);
 
-  const expectedCollectedRelationships: Relationship[] = context.jobState.collectedRelationships.map(
-    () => {
+  const expectedCollectedRelationships: Relationship[] =
+    context.jobState.collectedRelationships.map(() => {
       return {
         _key: matchesSlackChannelUserRelationshipKey(),
         _type: 'slack_channel_has_User',
@@ -45,8 +45,7 @@ test('step data collection', async () => {
         _mapping: undefined,
         displayName: 'HAS',
       };
-    },
-  );
+    });
 
   expect(context.jobState.collectedRelationships).toEqual(
     expectedCollectedRelationships,

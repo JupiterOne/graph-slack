@@ -10,17 +10,18 @@ import fetchChannels from '../steps/fetch-channels';
 import { SlackIntegrationConfig } from '../type';
 
 test('should export integration invocation config', () => {
-  const expectedInvocationConfig: IntegrationInvocationConfig<SlackIntegrationConfig> = {
-    instanceConfigFields,
-    validateInvocation,
-    getStepStartStates,
-    integrationSteps: [
-      teamStep,
-      fetchUsersStep,
-      fetchChannelMembersStep,
-      fetchChannels,
-    ],
-  };
+  const expectedInvocationConfig: IntegrationInvocationConfig<SlackIntegrationConfig> =
+    {
+      instanceConfigFields,
+      validateInvocation,
+      getStepStartStates,
+      integrationSteps: [
+        teamStep,
+        fetchUsersStep,
+        fetchChannelMembersStep,
+        fetchChannels,
+      ],
+    };
 
   expect(invocationConfig).toEqual(expectedInvocationConfig);
 });

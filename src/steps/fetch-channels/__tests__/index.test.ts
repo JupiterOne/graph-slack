@@ -30,8 +30,8 @@ test('step data collection', async () => {
   expect(context.jobState.collectedEntities.length).toBeGreaterThan(0);
   expect(context.jobState.collectedRelationships.length).toEqual(0);
 
-  const expectedCollectedEntities: Entity[] = context.jobState.collectedEntities.map(
-    (entity: Entity) => {
+  const expectedCollectedEntities: Entity[] =
+    context.jobState.collectedEntities.map((entity: Entity) => {
       return expect.objectContaining({
         ...entity,
         isChannel: expect.any(Boolean),
@@ -66,8 +66,7 @@ test('step data collection', async () => {
         _rawData: expect.any(Array),
         displayName: entity.name,
       });
-    },
-  );
+    });
 
   expect(context.jobState.collectedEntities).toEqual(expectedCollectedEntities);
 });
