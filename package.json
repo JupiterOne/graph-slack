@@ -30,14 +30,14 @@
     "@slack/web-api": "^6.6.0"
   },
   "devDependencies": {
-    "@jupiterone/integration-sdk-core": "^8.2.1",
-    "@jupiterone/integration-sdk-dev-tools": "^8.2.1",
-    "@jupiterone/integration-sdk-testing": "^8.2.1",
+    "@jupiterone/integration-sdk-core": "^7.4.0",
+    "@jupiterone/integration-sdk-dev-tools": "^7.4.0",
+    "@jupiterone/integration-sdk-testing": "^7.4.0",
     "@types/uuid": "^8.3.1",
     "type-fest": "^1.3.0",
     "uuid": "^8.3.2"
   },
   "peerDependencies": {
-    "@jupiterone/integration-sdk-core": "^8.2.1"
+    "@jupiterone/integration-sdk-core": "^7.4.0"
   }
 }
