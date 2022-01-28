@@ -57,3 +57,30 @@ developing this integration.
 
 The history of this integration's development can be viewed at
 [CHANGELOG.md](CHANGELOG.md).
+
+### Versioning this project
+
+To version this project and tag the repo with a new version number, run the
+following (where `major.minor.patch` is the version you expect to move to):
+
+```sh
+git checkout -b release-<major>.<minor>.<patch>
+vim CHANGELOG.md # remember to update CHANGELOG.md with version & date!
+git add CHANGELOG.md
+yarn version <major>.<minor>.<patch>
+git push --follow-tags -u origin release-<major>.<minor>.<patch>
+```
+
+**NOTE:** It is _critical_ that the tagged commit is the _last_ commit before
+merging to main. If any commit is added _after_ the tagged commit, the project
+will not be published to NPM.
+
+**NOTE:** Make sure you select the _Create a merge commit_ option when merging
+the PR for your release branch. Otherwise the publishing workflow will error
+out.
+
+### Publishing
+
+After the PR is merged to the main branch, the
+[**Build** github workflow](./.github/workflows/build.yml) should run the
+**Publish** step to publish this project to NPM.
