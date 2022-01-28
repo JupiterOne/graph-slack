@@ -3,8 +3,8 @@
   "version": "4.0.0",
   "description": "A graph conversion tool for https://slack.com",
   "license": "MPL-2.0",
-  "main": "dist/index.js",
-  "types": "dist/index.d.ts",
+  "main": "src/index.js",
+  "types": "src/index.d.ts",
   "files": [
     "src"
   ],
@@ -17,16 +17,17 @@
     "graph:types": "j1-integration visualize-types",
     "lint": "eslint . --cache --fix --ext .ts,.tsx",
     "format": "prettier --write '**/*.{ts,js,json,css,md,yml}'",
+    "format-check": "prettier --check '**/*.{ts,js,json,css,md,yml}'",
     "type-check": "tsc",
     "test": "jest",
     "test:env": "LOAD_ENV=1 yarn test",
-    "test:ci": "yarn lint && yarn type-check && yarn test",
+    "test:ci": "yarn format-check && yarn lint && yarn type-check && yarn test",
     "build": "tsc -p tsconfig.dist.json --declaration && cp README.md dist/README.md",
-    "prepush": "yarn lint && yarn type-check && jest --changedSince main"
+    "prepush": "yarn format-check && yarn lint && yarn type-check && jest --changedSince main"
   },
   "dependencies": {
     "@lifeomic/attempt": "^3.0.1",
-    "@slack/web-api": "^6.4.0"
+    "@slack/web-api": "^6.6.0"
   },
   "devDependencies": {
     "@jupiterone/integration-sdk-core": "^7.4.0",
