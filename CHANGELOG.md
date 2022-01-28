@@ -8,6 +8,13 @@ and this project adheres to
 
 ## [Unreleased]
 
+## 4.0.1 - 2022-01-28
+
+### Changed
+
+- Upgrade slack/web-api to 6.6.0
+- Fixed main and types in the packages.json
+
 ## 4.0.0 - 2021-11-08
 
 ### Changed
