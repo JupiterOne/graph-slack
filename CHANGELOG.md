@@ -8,6 +8,10 @@ and this project adheres to
 
 ## [Unreleased]
 
+## 4.0.2 - 2022-01-28
+
+Fixed GitHub build action to `yarn build` prior to publish.
+
 ## 4.0.1 - 2022-01-28
 
 ### Changed
