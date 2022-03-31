@@ -8,6 +8,16 @@ and this project adheres to
 
 ## [Unreleased]
 
+## 4.0.3 - 2022-01-28
+
+### Changed
+
+- The slack_user mfaEnabled property is now only set when we receive valid data
+  for it from Slack.
+- Documentation now notes that only Admin and higher users who install the
+  JupiterOne Slack integration application will have access to some properties
+  from Slack.
+
 ## 4.0.2 - 2022-01-28
 
 Fixed GitHub build action to `yarn build` prior to publish.
