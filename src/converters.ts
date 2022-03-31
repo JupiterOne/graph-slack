@@ -82,7 +82,8 @@ export function createUserEntity(teamId: string, user: SlackUser): Entity {
         emailDomain: emailDomain && [emailDomain],
         bot: user.is_bot === true,
         appUser: user.is_app_user === true,
-        mfaEnabled: user.has_2fa === true,
+        mfaEnabled:
+          user.has_2fa != undefined ? user.has_2fa === true : undefined,
         admin: user.is_admin === true || user.is_owner === true,
         teamAdmin: user.is_admin === true,
         teamOwner: user.is_owner === true,

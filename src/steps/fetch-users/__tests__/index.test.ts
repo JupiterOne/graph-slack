@@ -36,7 +36,6 @@ test('step data collection', async () => {
       return expect.objectContaining({
         ...entity,
         username: expect.any(String),
-        mfaEnabled: expect.any(Boolean),
         bot: expect.any(Boolean),
         teamAdmin: expect.any(Boolean),
         teamOwner: expect.any(Boolean),
