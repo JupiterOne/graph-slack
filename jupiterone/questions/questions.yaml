@@ -1,0 +1,32 @@
+---
+sourceId: managed:slack
+integrationDefinitionId: "${integration_definition_id}"
+questions:
+- id: managed-question-workflow-slack-channel-users
+  title: How many users are in each of my Slack channels?
+  description: Returns a list of slack channels and the number of users they have.
+  queries:
+    - query: |
+        FIND slack_channel AS c 
+          THAT HAS slack_user AS u 
+          RETURN 
+            c.name AS Channel, 
+            COUNT(u) AS UsersCount
+              ORDER BY UsersCount DESC
+  tags:
+  - slack
+  - user
+  - workflow
+- id: managed-question-workflow-slack-external-users
+  title: Who are the external users within Slack?
+  description: Returns a list of external Slack users and the corporate channels they're in.
+  queries:
+    - query: |
+        FIND slack_channel AS c 
+          THAT HAS slack_user WITH email !~= "{{@yourEmailDomain.com}}" AS u
+          RETURN 
+            c.name AS Channel, 
+            u.email AS User
+  tags:
+  - slack
+  - user
