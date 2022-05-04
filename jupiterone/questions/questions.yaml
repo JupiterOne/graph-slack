@@ -6,13 +6,13 @@ questions:
   title: How many users are in each of my Slack channels?
   description: Returns a list of slack channels and the number of users they have.
   queries:
-    query: |
-      FIND slack_channel AS c 
-        THAT HAS slack_user AS u 
-        RETURN 
-          c.name AS Channel, 
-          COUNT(u) AS UsersCount
-            ORDER BY Users DESC
+    - query: |
+        FIND slack_channel AS c 
+          THAT HAS slack_user AS u 
+          RETURN 
+            c.name AS Channel, 
+            COUNT(u) AS UsersCount
+              ORDER BY UsersCount DESC
   tags:
   - slack
   - user
@@ -21,12 +21,12 @@ questions:
   title: Who are the external users within Slack?
   description: Returns a list of external Slack users and the corporate channels they're in.
   queries:
-    query: |
-      FIND slack_channel AS c 
-        THAT HAS slack_user WITH email !~= "{{@yourEmailDomain.com}}" AS u
-        RETURN 
-          c.name AS Channel, 
-          u.email AS User
+    - query: |
+        FIND slack_channel AS c 
+          THAT HAS slack_user WITH email !~= "{{@yourEmailDomain.com}}" AS u
+          RETURN 
+            c.name AS Channel, 
+            u.email AS User
   tags:
   - slack
   - user
