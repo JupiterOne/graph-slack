@@ -122,7 +122,7 @@ export class SlackWebClient extends WebClient {
       )) as WebAPICallResult & { members: any[] };
 
       const numUsersOnPage = listUsersResponse.members.length;
-      this.integrationLogger.info(
+      this.integrationLogger.debug(
         {
           users: numUsersOnPage,
         },
@@ -166,8 +166,21 @@ export class SlackWebClient extends WebClient {
         },
       )) as WebAPICallResult & { channels: any[] };
 
+      // TODO: INT-3586: We are adding this for debugging purposes.
+      // We should have been checking ok regardless, but this will help
+      // catch any upstream errors causing duplicate channels.
+      // When we remove this we should also turn the coverage thresholds
+      // back to 100%
+      // @zemberdotnet
+      if (!listChannelsResponse.ok) {
+        this.integrationLogger.warn('Slack API call not ok', {
+          ok: listChannelsResponse.ok,
+          error: listChannelsResponse.error!,
+        });
+      }
+
       const numChannelsOnPage = listChannelsResponse.channels.length;
-      this.integrationLogger.info(
+      this.integrationLogger.debug(
         {
           channels: numChannelsOnPage,
         },
@@ -212,7 +225,7 @@ export class SlackWebClient extends WebClient {
       )) as WebAPICallResult & { members: any[] };
 
       const numChannelMembersOnPage = listChannelMembersResponse.members.length;
-      this.integrationLogger.info(
+      this.integrationLogger.debug(
         {
           members: numChannelMembersOnPage,
         },
