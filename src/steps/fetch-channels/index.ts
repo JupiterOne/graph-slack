@@ -1,4 +1,8 @@
-import { IntegrationStep } from '@jupiterone/integration-sdk-core';
+import {
+  Entity,
+  getRawData,
+  IntegrationStep,
+} from '@jupiterone/integration-sdk-core';
 import { createSlackClient } from '../../provider';
 import { SlackChannel } from '../../provider/types';
 import {
@@ -33,10 +37,18 @@ const step: IntegrationStep<SlackIntegrationConfig> = {
       // Check if we have already created this channel.
       // If we have, then we log extra details
       if (jobState.hasKey(key)) {
-        context.logger.warn('Duplicate channel found', {
-          channelId: channel.id,
-          active: channel.is_active,
-          archived: channel.is_archived,
+        const existingChannel = (await jobState.findEntity(key)) as Entity;
+        const rawData = getRawData<SlackChannel>(existingChannel);
+
+        context.logger.warn('Duplicate channel found. Diff:', {
+          isChannel: channel.is_channel === rawData.is_channel,
+          isArchived: channel.is_archived === rawData.is_archived,
+          topicLastSet: channel.topic.last_set === rawData.topic.last_set,
+          purposeLastSet: channel.purpose.last_set === rawData.purpose.last_set,
+          numMembers: channel.num_members === rawData.num_members,
+          prevNamesNum:
+            channel.previous_names.length === rawData.previous_names.length,
+          objectDiff: JSON.stringify(channel) === JSON.stringify(rawData),
         });
       }
 
