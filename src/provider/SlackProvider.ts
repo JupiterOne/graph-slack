@@ -166,18 +166,9 @@ export class SlackWebClient extends WebClient {
         },
       )) as WebAPICallResult & { channels: any[] };
 
-      // TODO: INT-3586: We are adding this for debugging purposes.
-      // We should have been checking ok regardless, but this will help
-      // catch any upstream errors causing duplicate channels.
-      // When we remove this we should also turn the coverage thresholds
-      // back to 100%
-      // @zemberdotnet
-      if (!listChannelsResponse.ok) {
-        this.integrationLogger.warn('Slack API call not ok', {
-          ok: listChannelsResponse.ok,
-          error: listChannelsResponse.error!,
-        });
-      }
+      // TODO: INT-3586: We should verify that we handle the slack
+      // api response correctly. Slack docs say we should check the `ok`
+      // property evert time, but we haven't. It may be a non-issue.
 
       const numChannelsOnPage = listChannelsResponse.channels.length;
       this.integrationLogger.debug(
