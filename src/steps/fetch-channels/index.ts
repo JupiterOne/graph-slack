@@ -38,7 +38,10 @@ const step: IntegrationStep<SlackIntegrationConfig> = {
         );
       } else {
         context.logger.debug(
-          `Skipping slack_channel entity creation: ${channel.id}`,
+          {
+            channelId: channel.id,
+          },
+          'Skipping slack_channel creation',
         );
       }
     });
