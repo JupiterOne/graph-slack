@@ -8,6 +8,13 @@ and this project adheres to
 
 ## [Unreleased]
 
+## 4.0.5 - 2022-05-19
+
+### Changed
+
+- `fetch-channels` step will now skip entity creation when an entity with a
+  duplicate `_key` already exists
+
 ## 4.0.4 - 2022-05-04
 
 ### Added
