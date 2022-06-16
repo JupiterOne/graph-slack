@@ -10,9 +10,10 @@ import {
   requestErrorWithOriginal,
 } from '@slack/web-api/dist/errors';
 
-function flushPromises() {
-  return new Promise((resolve) => setImmediate(resolve));
-}
+// The timeout for the retry 5 times test
+// has a minimum delay of 1 second and exponential
+// back-off. The test needs extra time to run.
+jest.setTimeout(15_0000);
 
 test('should log error message when rate limited', () => {
   const context = createMockStepExecutionContext<SlackIntegrationConfig>();
@@ -44,32 +45,12 @@ test('should retry slack_webapi_platform_error 5 times', async () => {
     throw err;
   });
 
-  jest.useFakeTimers();
-  slackClient.retryWebApiPlatformError(callback).catch((e) => {
+  try {
+    await slackClient.retryWebApiPlatformError(callback);
+  } catch (e) {
     expect(e).toBe(err);
-  });
-
-  for (const _ of Array(5)) {
-    /**
-     * The `retryWebApiPlatformError` function is designed to retry 5 times
-     * before failing.
-     *
-     * Each iteration of `retryWebApiPlatformError()` requires four promises
-     * to be resolved, and one timer to resolve:
-     *   - await slackClient.retryWebApiPlatformError()
-     *   - await @lifeomic/attempt.retry(attemptFunc)
-     *   - await attemptFunc()
-     *   - await sleep() [also requires a timer to resolve]
-     *
-     * For each retry, we must resolve all four promises _and_ run the sleep()
-     * timer to completion. Only then will the failed callback trigger another
-     * retry.
-     */
-    jest.runAllTimers();
-    await flushPromises();
   }
   expect(callback).toHaveBeenCalledTimes(5);
-  jest.useRealTimers();
 });
 
 test('should not retry slack_webapi_request_error', async () => {
