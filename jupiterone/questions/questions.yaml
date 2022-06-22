@@ -37,7 +37,7 @@ questions:
   queries:
   - name: bad
     query: |
-        FIND slack_user WITH active = true AND mfaEnabled != true  
+      FIND slack_user WITH active = true AND mfaEnabled != true  
   tags:
   - slack
   - user 
