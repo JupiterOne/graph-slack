@@ -30,3 +30,14 @@ questions:
   tags:
   - slack
   - user
+
+- id: managed-question-slack-active-users-with-no-multi-factor-authentication
+  title: Who are the active users within Slack that do not use MFA?
+  description: Returns a list of active Slack users that do not have MFA enabled.
+  queries:
+  - name: bad
+    query: |
+        FIND slack_user WITH active = true AND mfaEnabled != true  
+  tags:
+  - slack
+  - user 
