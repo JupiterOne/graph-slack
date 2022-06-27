@@ -1,6 +1,7 @@
 import {
   IntegrationExecutionContext,
   StepStartStates,
+  IntegrationValidationError,
 } from '@jupiterone/integration-sdk-core';
 import { USERS_READ_SCOPE, CHANNELS_READ_SCOPE } from './provider';
 import teamStep from './steps/team';
@@ -16,19 +17,19 @@ function validateExecutionConfig(
   const { accessToken, teamId, scopes } = executionContext.instance.config;
 
   if (!accessToken) {
-    throw new Error(
+    throw new IntegrationValidationError(
       'Configuration option "accessToken" is missing on the integration instance config',
     );
   }
 
   if (!teamId) {
-    throw new Error(
+    throw new IntegrationValidationError(
       'Configuration option "teamId" is missing on the integration instance config',
     );
   }
 
   if (!scopes) {
-    throw new Error(
+    throw new IntegrationValidationError(
       'Configuration option "scopes" is missing on the integration instance config',
     );
   }
