@@ -8,6 +8,13 @@ and this project adheres to
 
 ## [Unreleased]
 
+## 4.0.6 - 2022-06-27
+
+### Fixed
+
+- Configuration validation errors now throw an IntegrationValidationError
+  instead of a generic Error.
+
 ## 4.0.5 - 2022-05-19
 
 ### Changed
