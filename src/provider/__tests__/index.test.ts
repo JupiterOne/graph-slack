@@ -9,10 +9,7 @@ import {
   platformErrorFromResult,
   requestErrorWithOriginal,
 } from '@slack/web-api/dist/errors';
-
-function flushPromises() {
-  return new Promise((resolve) => setImmediate(resolve));
-}
+import { SlackWebClient } from '../SlackProvider';
 
 test('should log error message when rate limited', () => {
   const context = createMockStepExecutionContext<SlackIntegrationConfig>();
@@ -35,8 +32,17 @@ test('should log error message when rate limited', () => {
 
 test('should retry slack_webapi_platform_error 5 times', async () => {
   const context = createMockStepExecutionContext<SlackIntegrationConfig>();
-  const slackClient = createSlackClient(context);
-
+  const slackClient = new SlackWebClient(
+    context.logger,
+    context.instance.config.accessToken,
+    {
+      retries: 5,
+      factor: 1,
+      minTimeout: 1,
+      maxTimeout: 0,
+      randomize: false,
+    },
+  );
   const err = platformErrorFromResult({ ok: false, error: '' });
 
   // eslint-disable-next-line @typescript-eslint/require-await
@@ -44,32 +50,11 @@ test('should retry slack_webapi_platform_error 5 times', async () => {
     throw err;
   });
 
-  jest.useFakeTimers();
-  slackClient.retryWebApiPlatformError(callback).catch((e) => {
+  await slackClient.retryWebApiPlatformError(callback).catch((e) => {
     expect(e).toBe(err);
   });
 
-  for (const _ of Array(5)) {
-    /**
-     * The `retryWebApiPlatformError` function is designed to retry 5 times
-     * before failing.
-     *
-     * Each iteration of `retryWebApiPlatformError()` requires four promises
-     * to be resolved, and one timer to resolve:
-     *   - await slackClient.retryWebApiPlatformError()
-     *   - await @lifeomic/attempt.retry(attemptFunc)
-     *   - await attemptFunc()
-     *   - await sleep() [also requires a timer to resolve]
-     *
-     * For each retry, we must resolve all four promises _and_ run the sleep()
-     * timer to completion. Only then will the failed callback trigger another
-     * retry.
-     */
-    jest.runAllTimers();
-    await flushPromises();
-  }
   expect(callback).toHaveBeenCalledTimes(5);
-  jest.useRealTimers();
 });
 
 test('should not retry slack_webapi_request_error', async () => {

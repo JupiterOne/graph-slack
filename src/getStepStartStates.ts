@@ -1,4 +1,5 @@
 import {
+  DisabledStepReason,
   IntegrationExecutionContext,
   StepStartStates,
   IntegrationValidationError,
@@ -46,13 +47,18 @@ export default function getStepStartStates(
 
   return {
     [teamStep.id]: { disabled: false },
-    [fetchUsersStep.id]: { disabled: !scopes.has(USERS_READ_SCOPE) },
+    [fetchUsersStep.id]: {
+      disabled: !scopes.has(USERS_READ_SCOPE),
+      disabledReason: DisabledStepReason.PERMISSION,
+    },
     [fetchChannelMembersStep.id]: {
       disabled:
         !scopes.has(CHANNELS_READ_SCOPE) || !scopes.has(USERS_READ_SCOPE),
+      disabledReason: DisabledStepReason.PERMISSION,
     },
     [fetchChannels.id]: {
       disabled: !scopes.has(CHANNELS_READ_SCOPE),
+      disabledReason: DisabledStepReason.PERMISSION,
     },
   };
 }
