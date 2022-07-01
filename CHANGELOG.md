@@ -8,6 +8,13 @@ and this project adheres to
 
 ## [Unreleased]
 
+## 4.1.0 - 2022-07-01
+
+### Changed
+
+- Added disabled step reasons to getStepStartStates
+- Updated integration-sdk-\* versions to 8.18.0
+
 ## 4.0.6 - 2022-06-27
 
 ### Fixed
