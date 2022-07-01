@@ -1,7 +1,10 @@
 import getStepStartStates from '../getStepStartStates';
 import { createMockStepExecutionContext } from '../../test/context';
-import { USERS_READ_SCOPE, CHANNELS_READ_SCOPE } from '../provider';
-import { StepStartStates } from '@jupiterone/integration-sdk-core';
+import { CHANNELS_READ_SCOPE, USERS_READ_SCOPE } from '../provider';
+import {
+  DisabledStepReason,
+  StepStartStates,
+} from '@jupiterone/integration-sdk-core';
 
 function getDefaultStepStartStates(overrideStates?: {
   [key: string]: { [prop: string]: unknown };
@@ -12,12 +15,15 @@ function getDefaultStepStartStates(overrideStates?: {
     },
     'fetch-channels': {
       disabled: true,
+      disabledReason: DisabledStepReason.PERMISSION,
     },
     'fetch-channel-members': {
       disabled: true,
+      disabledReason: DisabledStepReason.PERMISSION,
     },
     'fetch-users': {
       disabled: true,
+      disabledReason: DisabledStepReason.PERMISSION,
     },
     ...overrideStates,
   };
@@ -63,13 +69,14 @@ test('should include "fetch-users" step if correct correct scopes provided', () 
   const expectedStepStartStates = getDefaultStepStartStates({
     'fetch-users': {
       disabled: false,
+      disabledReason: DisabledStepReason.PERMISSION,
     },
   });
 
   expect(getStepStartStates(context)).toEqual(expectedStepStartStates);
 });
 
-test('should include "fetch-channel-members" step if correct correct scopes provided', () => {
+test('should include "fetch-channel-members" step if correct scopes provided', () => {
   const context = createMockStepExecutionContext({
     partialInstanceConfig: {
       scopes: `${USERS_READ_SCOPE},${CHANNELS_READ_SCOPE}`,
@@ -79,12 +86,15 @@ test('should include "fetch-channel-members" step if correct correct scopes prov
   const expectedStepStartStates = getDefaultStepStartStates({
     'fetch-channel-members': {
       disabled: false,
+      disabledReason: DisabledStepReason.PERMISSION,
     },
     'fetch-channels': {
       disabled: false,
+      disabledReason: DisabledStepReason.PERMISSION,
     },
     'fetch-users': {
       disabled: false,
+      disabledReason: DisabledStepReason.PERMISSION,
     },
   });
 
@@ -101,6 +111,7 @@ test('should disable "fetch-channel-members" step if "fetch-users" scopes are no
   const expectedStepStartStates = getDefaultStepStartStates({
     'fetch-channels': {
       disabled: false,
+      disabledReason: DisabledStepReason.PERMISSION,
     },
   });
 

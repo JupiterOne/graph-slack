@@ -26,7 +26,7 @@ export interface ListChannelsResult extends WebAPICallResult {
   channels: SlackChannel[];
 }
 
-const retryOptions = {
+const defaultRetryOptions = {
   retries: 5,
   factor: 1.75, // 1, 1.75, 3.06, 5.35, 9.38
   minTimeout: 1000,
@@ -36,8 +36,13 @@ const retryOptions = {
 
 export class SlackWebClient extends WebClient {
   private integrationLogger: IntegrationLogger;
+  private retryOptions;
 
-  constructor(logger: IntegrationLogger, token: string) {
+  constructor(
+    logger: IntegrationLogger,
+    token: string,
+    retryOptions = defaultRetryOptions,
+  ) {
     const webClientOptions: WebClientOptions = {
       /**
        * The slack client takes optional `logger` and `logLevel` arguments in order to
@@ -73,16 +78,17 @@ export class SlackWebClient extends WebClient {
 
     super(token, webClientOptions);
     this.integrationLogger = logger;
+    this.retryOptions = { ...defaultRetryOptions, ...retryOptions };
   }
 
   async retryWebApiPlatformError<T>(callback: () => Promise<T>) {
     return retry(callback, {
-      delay: retryOptions.minTimeout,
-      maxAttempts: retryOptions.retries,
-      jitter: retryOptions.randomize,
-      factor: retryOptions.factor,
-      minDelay: retryOptions.minTimeout,
-      maxDelay: retryOptions.maxTimeout,
+      delay: this.retryOptions.minTimeout,
+      maxAttempts: this.retryOptions.retries,
+      jitter: this.retryOptions.randomize,
+      factor: this.retryOptions.factor,
+      minDelay: this.retryOptions.minTimeout,
+      maxDelay: this.retryOptions.maxTimeout,
       handleError: (err, context) => {
         if (err.code === ErrorCode.PlatformError) {
           this.integrationLogger.warn(
