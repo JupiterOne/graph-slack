@@ -143,6 +143,7 @@ export function createChannelEntity(
         purposeCreator: channel.purpose.creator,
         purposeLastSet: channel.purpose.last_set,
         numMembers: channel.num_members,
+        teamId: teamId,
       },
     },
   });
