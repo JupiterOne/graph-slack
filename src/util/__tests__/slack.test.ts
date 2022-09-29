@@ -9,4 +9,9 @@ test('should parse slack scopes', () => {
   expect(
     parseSlackScopes(`  ${USERS_READ_SCOPE},${CHANNELS_READ_SCOPE}  `),
   ).toEqual([USERS_READ_SCOPE, CHANNELS_READ_SCOPE]);
+  expect(parseSlackScopes(`  scope1 , scope2 , scope3    `)).toEqual([
+    'scope1',
+    'scope2',
+    'scope3',
+  ]);
 });

@@ -7,5 +7,5 @@
  * Output: ["users:read", "users:read.email"]
  */
 export function parseSlackScopes(scopes: string): string[] {
-  return scopes.trim().split(',');
+  return scopes.replace(/ /g, '').split(',');
 }
