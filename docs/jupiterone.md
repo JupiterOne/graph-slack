@@ -19,7 +19,7 @@
 
 ## Requirements
 
-- JupiterOne requires the JupiterOne Slack app be installed in your Slack
+- JupiterOne requires the JupiterOne integration for Slack app be installed in your Slack
   account with the requested OAuth scopes selected.
 - You must have permission in JupiterOne to install new integrations.
 
