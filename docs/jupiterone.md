@@ -19,8 +19,8 @@
 
 ## Requirements
 
-- JupiterOne requires the JupiterOne integration for Slack app be installed in your Slack
-  account with the requested OAuth scopes selected.
+- JupiterOne requires the JupiterOne integration for Slack app be installed in
+  your Slack account with the requested OAuth scopes selected.
 - You must have permission in JupiterOne to install new integrations.
 
 ## Support
@@ -40,7 +40,7 @@ ingesting relevant information and send notifications via the
 
 1. First navigate to the JupiterOne Slack integration configuration page (see
    detailed steps in the **In JupiterOne** section below)
-2. Fill out relavant integration instance form information and OAuth scopes that
+2. Fill out relevant integration instance form information and OAuth scopes that
    you'd like the Slack app to request. All read scopes are used to ingest data
    into the JupiterOne graph and the write scopes are used for enabling the
    ability to send notifications to channels in the configured Slack team. NOTE:
