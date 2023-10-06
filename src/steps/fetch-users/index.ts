@@ -51,6 +51,9 @@ async function addSlackUserEntity(
 ): Promise<void> {
   const { instance, jobState } = context;
   const userEntity = createUserEntity(instance.config.teamId, user);
+  if (!userEntity) {
+    return;
+  }
   await jobState.addEntity(userEntity);
   await jobState.addRelationship(
     createTeamHasUserRelationship({

@@ -5,7 +5,6 @@ import {
   createChannelEntity,
   SLACK_CHANNEL_TYPE,
   SLACK_CHANNEL_CLASS,
-  toChannelEntityKey,
 } from '../../converters';
 import { SlackIntegrationConfig } from '../../type';
 
@@ -24,18 +23,19 @@ const step: IntegrationStep<SlackIntegrationConfig> = {
     const { instance, jobState } = context;
     const client = createSlackClient(context);
     await client.iterateChannels(async (channel: SlackChannel) => {
-      const key = toChannelEntityKey({
-        teamId: instance.config.teamId,
-        channelId: channel.id,
-      });
+      const channelEntity = createChannelEntity(
+        instance.config.teamId,
+        channel,
+      );
+      if (!channelEntity) {
+        return;
+      }
 
       // We occasionally see duplicate channels, but after
       // comparing the duplicate channels they matched exactly.
       // So, if we see the same key again we skip creation.
-      if (!jobState.hasKey(key)) {
-        await jobState.addEntity(
-          createChannelEntity(instance.config.teamId, channel),
-        );
+      if (!jobState.hasKey(channelEntity._key)) {
+        await jobState.addEntity(channelEntity);
       } else {
         context.logger.debug(
           {

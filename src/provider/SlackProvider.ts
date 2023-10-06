@@ -112,7 +112,7 @@ export class SlackWebClient extends WebClient {
     let totalUsers = 0;
 
     do {
-      const listUsersResponse = (await this.retryWebApiPlatformError(
+      const listUsersResponse = await this.retryWebApiPlatformError(
         async () => {
           return this.users.list({
             cursor: nextCursor,
@@ -125,9 +125,9 @@ export class SlackWebClient extends WebClient {
             ...options,
           });
         },
-      )) as WebAPICallResult & { members: any[] };
+      );
 
-      const numUsersOnPage = listUsersResponse.members.length;
+      const numUsersOnPage = listUsersResponse.members?.length;
       this.integrationLogger.debug(
         {
           users: numUsersOnPage,
@@ -135,12 +135,12 @@ export class SlackWebClient extends WebClient {
         'Page of users',
       );
 
-      for (const user of listUsersResponse.members) {
+      for (const user of listUsersResponse.members || []) {
         await callback(user);
       }
 
       nextCursor = listUsersResponse.response_metadata!.next_cursor;
-      totalUsers += listUsersResponse.members.length;
+      totalUsers += listUsersResponse.members?.length || 0;
     } while (nextCursor);
 
     this.integrationLogger.info(
@@ -159,7 +159,7 @@ export class SlackWebClient extends WebClient {
     let totalChannels = 0;
 
     do {
-      const listChannelsResponse = (await this.retryWebApiPlatformError(
+      const listChannelsResponse = await this.retryWebApiPlatformError(
         async () => {
           return this.conversations.list({
             cursor: nextCursor,
@@ -170,13 +170,13 @@ export class SlackWebClient extends WebClient {
             ...options,
           });
         },
-      )) as WebAPICallResult & { channels: any[] };
+      );
 
       // TODO: INT-3586: We should verify that we handle the slack
       // api response correctly. Slack docs say we should check the `ok`
       // property evert time, but we haven't. It may be a non-issue.
 
-      const numChannelsOnPage = listChannelsResponse.channels.length;
+      const numChannelsOnPage = listChannelsResponse.channels?.length;
       this.integrationLogger.debug(
         {
           channels: numChannelsOnPage,
@@ -184,12 +184,12 @@ export class SlackWebClient extends WebClient {
         'Page of channels',
       );
 
-      for (const channel of listChannelsResponse.channels) {
+      for (const channel of listChannelsResponse.channels || []) {
         await callback(channel);
       }
 
       nextCursor = listChannelsResponse.response_metadata!.next_cursor;
-      totalChannels += numChannelsOnPage;
+      totalChannels += numChannelsOnPage || 0;
     } while (nextCursor);
 
     this.integrationLogger.info(

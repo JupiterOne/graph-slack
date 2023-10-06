@@ -11,7 +11,9 @@
 // for converters to help ensure that the results from
 // api calls are being routed to the correct converter.
 
-import { Opaque } from 'type-fest';
+import { ConversationsListResponse, UsersListResponse } from '@slack/web-api';
 
-export type SlackUser = Opaque<any, 'SlackUser'>;
-export type SlackChannel = Opaque<any, 'SlackChannel'>;
+export type SlackUser = NonNullable<UsersListResponse['members']>[number];
+export type SlackChannel = NonNullable<
+  ConversationsListResponse['channels']
+>[number];

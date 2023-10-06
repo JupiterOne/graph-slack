@@ -7,3 +7,4 @@ dist/
 tsconfig.tsbuildinfo
 coverage/
 yarn-error.log
+.npmrc
