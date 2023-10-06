@@ -1,3 +1,118 @@
+# v5.0.0 (Fri Oct 06 2023)
+
+#### 💥 Breaking Change
+
+- Upgrade node [#90](https://github.com/JupiterOne/graph-slack/pull/90) (ronald.arias@contractor.jupiterone.com)
+
+#### 🐛 Bug Fix
+
+- Merging CodeQL [#88](https://github.com/JupiterOne/graph-slack/pull/88) ([@electricgull](https://github.com/electricgull))
+- Merging CodeQL [#87](https://github.com/JupiterOne/graph-slack/pull/87) ([@VDubber](https://github.com/VDubber))
+- Updates [#86](https://github.com/JupiterOne/graph-slack/pull/86) ([@janettelynch](https://github.com/janettelynch) [@austinkelleher](https://github.com/austinkelleher))
+- INT-5665 - Fix scope parsing [#84](https://github.com/JupiterOne/graph-slack/pull/84) ([@VDubber](https://github.com/VDubber))
+- Release 4.2.0 [#83](https://github.com/JupiterOne/graph-slack/pull/83) ([@zemberdotnet](https://github.com/zemberdotnet))
+- Add teamId to channel entity [#82](https://github.com/JupiterOne/graph-slack/pull/82) ([@zemberdotnet](https://github.com/zemberdotnet))
+- Release v4.1.0 [#81](https://github.com/JupiterOne/graph-slack/pull/81) ([@VDubber](https://github.com/VDubber))
+- Int 4045 disabled step reason [#80](https://github.com/JupiterOne/graph-slack/pull/80) ([@VDubber](https://github.com/VDubber))
+- Release 4.0.6 [#79](https://github.com/JupiterOne/graph-slack/pull/79) ([@adam-in-ict](https://github.com/adam-in-ict))
+- Throwing IntegrationValidationError instead of a generic Error [#78](https://github.com/JupiterOne/graph-slack/pull/78) ([@adam-in-ict](https://github.com/adam-in-ict))
+- Kno229 slack users with mfa disabled [#77](https://github.com/JupiterOne/graph-slack/pull/77) ([@mcpeach9](https://github.com/mcpeach9))
+- Add privacy policy to the bottom of the docs. [#75](https://github.com/JupiterOne/graph-slack/pull/75) ([@VDubber](https://github.com/VDubber))
+- Release 4.0.5 [#74](https://github.com/JupiterOne/graph-slack/pull/74) ([@zemberdotnet](https://github.com/zemberdotnet))
+- [INT-3586] Skip Duplicate Channel Creation [#73](https://github.com/JupiterOne/graph-slack/pull/73) ([@zemberdotnet](https://github.com/zemberdotnet))
+- v4.0.5-beta.2 [#72](https://github.com/JupiterOne/graph-slack/pull/72) ([@zemberdotnet](https://github.com/zemberdotnet))
+- [INT-3586] Compare Duplicate Slack Channels [#71](https://github.com/JupiterOne/graph-slack/pull/71) ([@zemberdotnet](https://github.com/zemberdotnet))
+- v4.0.5-beta.1 [#70](https://github.com/JupiterOne/graph-slack/pull/70) ([@zemberdotnet](https://github.com/zemberdotnet))
+- Add debug info to catch duplicate channels [#69](https://github.com/JupiterOne/graph-slack/pull/69) ([@zemberdotnet](https://github.com/zemberdotnet))
+- INT-3469 Add Questions, Workflows, Misc QoL updates #166 [#68](https://github.com/JupiterOne/graph-slack/pull/68) ([@zemberdotnet](https://github.com/zemberdotnet))
+- Merged via j1-codeowners-automation-v1.0.0 [#67](https://github.com/JupiterOne/graph-slack/pull/67) ([@erichs](https://github.com/erichs))
+- Release 4.0.3 [#65](https://github.com/JupiterOne/graph-slack/pull/65) ([@adam-in-ict](https://github.com/adam-in-ict))
+- INT-2310 mfaEnabled issues [#63](https://github.com/JupiterOne/graph-slack/pull/63) ([@adam-in-ict](https://github.com/adam-in-ict))
+- Add CODEOWNERS [#61](https://github.com/JupiterOne/graph-slack/pull/61) (security@jupiterone.com [@erichs](https://github.com/erichs))
+- v4.0.2 [#57](https://github.com/JupiterOne/graph-slack/pull/57) ([@VDubber](https://github.com/VDubber))
+- v4.0.1 release [#56](https://github.com/JupiterOne/graph-slack/pull/56) ([@VDubber](https://github.com/VDubber))
+- Updated slack/web-api packages. [#55](https://github.com/JupiterOne/graph-slack/pull/55) ([@VDubber](https://github.com/VDubber))
+- v4.0.0 [#51](https://github.com/JupiterOne/graph-slack/pull/51) ([@austinkelleher](https://github.com/austinkelleher))
+- Upgrade all packages and build config [#48](https://github.com/JupiterOne/graph-slack/pull/48) ([@austinkelleher](https://github.com/austinkelleher))
+- User type [#45](https://github.com/JupiterOne/graph-slack/pull/45) ([@erkangz](https://github.com/erkangz))
+- Bot app user [#42](https://github.com/JupiterOne/graph-slack/pull/42) ([@erkangz](https://github.com/erkangz))
+- v3.8.0 [#41](https://github.com/JupiterOne/graph-slack/pull/41) ([@austinkelleher](https://github.com/austinkelleher))
+- Upgrade packages [#40](https://github.com/JupiterOne/graph-slack/pull/40) ([@austinkelleher](https://github.com/austinkelleher))
+- Add integration benefits [#38](https://github.com/JupiterOne/graph-slack/pull/38) ([@jayson-jensen-pro](https://github.com/jayson-jensen-pro))
+- Add `emailDomain` property to `slack_user` [#37](https://github.com/JupiterOne/graph-slack/pull/37) ([@erkangz](https://github.com/erkangz))
+- Upgrade packages [#36](https://github.com/JupiterOne/graph-slack/pull/36) ([@austinkelleher](https://github.com/austinkelleher))
+- Displayname [#35](https://github.com/JupiterOne/graph-slack/pull/35) ([@erkangz](https://github.com/erkangz))
+- Update docs for latest alert workflow info [#33](https://github.com/JupiterOne/graph-slack/pull/33) (akash.ganapathi@jupiterone.com)
+- v3.4.1 [#31](https://github.com/JupiterOne/graph-slack/pull/31) ([@ndowmon](https://github.com/ndowmon))
+- Add retries [#30](https://github.com/JupiterOne/graph-slack/pull/30) ([@ndowmon](https://github.com/ndowmon))
+- deprecate set-env [#29](https://github.com/JupiterOne/graph-slack/pull/29) ([@mknoedel](https://github.com/mknoedel))
+- Release 3.4.0 [#28](https://github.com/JupiterOne/graph-slack/pull/28) ([@ndowmon](https://github.com/ndowmon))
+- Add active slack_user property [#27](https://github.com/JupiterOne/graph-slack/pull/27) ([@austinkelleher](https://github.com/austinkelleher))
+- Updated docs to include note about private Slack channel message deli… [#26](https://github.com/JupiterOne/graph-slack/pull/26) ([@austinkelleher](https://github.com/austinkelleher))
+- Update API limit settings [#25](https://github.com/JupiterOne/graph-slack/pull/25) ([@austinkelleher](https://github.com/austinkelleher))
+- Update rate limit settings and add logging [#24](https://github.com/JupiterOne/graph-slack/pull/24) ([@austinkelleher](https://github.com/austinkelleher))
+- Fixes #21 - Upgrade to SDK v3.0.0 [#22](https://github.com/JupiterOne/graph-slack/pull/22) ([@austinkelleher](https://github.com/austinkelleher))
+- Bump packages [#20](https://github.com/JupiterOne/graph-slack/pull/20) ([@austinkelleher](https://github.com/austinkelleher))
+- Version 2.4.0 [#17](https://github.com/JupiterOne/graph-slack/pull/17) ([@austinkelleher](https://github.com/austinkelleher))
+- Update SDK packages [#16](https://github.com/JupiterOne/graph-slack/pull/16) ([@austinkelleher](https://github.com/austinkelleher))
+- Switch to using   resource iteration approach when performing list all operations from Slack API [#13](https://github.com/JupiterOne/graph-slack/pull/13) ([@austinkelleher](https://github.com/austinkelleher))
+- v2.2.0 [#12](https://github.com/JupiterOne/graph-slack/pull/12) ([@austinkelleher](https://github.com/austinkelleher))
+- Fix #10 - Ingest slack_team entity and create a relationship between … [#11](https://github.com/JupiterOne/graph-slack/pull/11) ([@austinkelleher](https://github.com/austinkelleher))
+- Upgrade to 2.2.0 [#9](https://github.com/JupiterOne/graph-slack/pull/9) ([@ctdio](https://github.com/ctdio))
+- Upgrading to latest integration sdk [#8](https://github.com/JupiterOne/graph-slack/pull/8) (darrius.wright@lifeomic.com)
+- Fixes #6 - Ingest whether a user is an admin, owner, or restricted. [#7](https://github.com/JupiterOne/graph-slack/pull/7) ([@austinkelleher](https://github.com/austinkelleher))
+- Fix slack integration failing when attempting to fetch channel member… [#5](https://github.com/JupiterOne/graph-slack/pull/5) ([@austinkelleher](https://github.com/austinkelleher))
+- Integration sdk 1.0.0 [#4](https://github.com/JupiterOne/graph-slack/pull/4) ([@austinkelleher](https://github.com/austinkelleher))
+- Prep deploy [#3](https://github.com/JupiterOne/graph-slack/pull/3) (adam.williams@lifeomic.com)
+- Initial Slack integration [#1](https://github.com/JupiterOne/graph-slack/pull/1) ([@austinkelleher](https://github.com/austinkelleher))
+
+#### ⚠️ Pushed to `main`
+
+- Initial commit ([@austinkelleher](https://github.com/austinkelleher))
+
+#### 📝 Documentation
+
+- Additional improvements and fixes to jupiterone.md doc [#19](https://github.com/JupiterOne/graph-slack/pull/19) ([@austinkelleher](https://github.com/austinkelleher))
+- Fix jupiterone doc typos [#18](https://github.com/JupiterOne/graph-slack/pull/18) ([@austinkelleher](https://github.com/austinkelleher))
+- Fixes #14 - Add installation + rule configuration documentation [#15](https://github.com/JupiterOne/graph-slack/pull/15) ([@austinkelleher](https://github.com/austinkelleher))
+
+#### 🔩 Dependency Updates
+
+- Bump follow-redirects from 1.14.7 to 1.14.9 [#64](https://github.com/JupiterOne/graph-slack/pull/64) ([@dependabot[bot]](https://github.com/dependabot[bot]))
+- Bump minimist from 1.2.5 to 1.2.6 [#62](https://github.com/JupiterOne/graph-slack/pull/62) ([@dependabot[bot]](https://github.com/dependabot[bot]))
+- Bump url-parse from 1.5.3 to 1.5.10 [#60](https://github.com/JupiterOne/graph-slack/pull/60) ([@dependabot[bot]](https://github.com/dependabot[bot]))
+- Bump ansi-regex from 5.0.0 to 5.0.1 [#53](https://github.com/JupiterOne/graph-slack/pull/53) ([@dependabot[bot]](https://github.com/dependabot[bot]))
+- Bump axios from 0.21.1 to 0.21.4 [#52](https://github.com/JupiterOne/graph-slack/pull/52) ([@dependabot[bot]](https://github.com/dependabot[bot]))
+- Bump tmpl from 1.0.4 to 1.0.5 [#50](https://github.com/JupiterOne/graph-slack/pull/50) ([@dependabot[bot]](https://github.com/dependabot[bot]))
+- Bump semver-regex from 3.1.2 to 3.1.3 [#49](https://github.com/JupiterOne/graph-slack/pull/49) ([@dependabot[bot]](https://github.com/dependabot[bot]))
+- Bump hosted-git-info from 2.8.8 to 2.8.9 [#43](https://github.com/JupiterOne/graph-slack/pull/43) ([@dependabot[bot]](https://github.com/dependabot[bot]))
+- Bump url-parse from 1.4.7 to 1.5.1 [#44](https://github.com/JupiterOne/graph-slack/pull/44) ([@dependabot[bot]](https://github.com/dependabot[bot]))
+- Bump ws from 7.3.0 to 7.4.6 [#46](https://github.com/JupiterOne/graph-slack/pull/46) ([@dependabot[bot]](https://github.com/dependabot[bot]))
+
+#### Authors: 19
+
+- [@dependabot[bot]](https://github.com/dependabot[bot])
+- Adam Pierson ([@adam-in-ict](https://github.com/adam-in-ict))
+- Adam Williams ([@aiwilliams](https://github.com/aiwilliams))
+- Akash Ganapathi ([@a-u-h-g](https://github.com/a-u-h-g))
+- Austin Kelleher ([@austinkelleher](https://github.com/austinkelleher))
+- Cameron Griffin ([@electricgull](https://github.com/electricgull))
+- Charlie Duong ([@ctdio](https://github.com/ctdio))
+- Darrius Wright ([@softwarewright](https://github.com/softwarewright))
+- Diane Cash ([@mcpeach9](https://github.com/mcpeach9))
+- Erich Smith ([@erichs](https://github.com/erichs))
+- Erkang Zheng ([@erkangz](https://github.com/erkangz))
+- J1 CODEOWNERS Automation v1.0.0 (security@jupiterone.com)
+- Janette Lynch ([@janettelynch](https://github.com/janettelynch))
+- Jayson Jensen ([@jayson-jensen-pro](https://github.com/jayson-jensen-pro))
+- Matthew Zember ([@zemberdotnet](https://github.com/zemberdotnet))
+- Michael Knoedel ([@mknoedel](https://github.com/mknoedel))
+- Nick Dowmon ([@ndowmon](https://github.com/ndowmon))
+- Ronald Arias ([@RonaldEAM](https://github.com/RonaldEAM))
+- Samuel Poulton ([@VDubber](https://github.com/VDubber))
+
+---
+
 # Changelog
 
 All notable changes to this project will be documented in this file.
