@@ -28,14 +28,24 @@ with JupiterOne in the [integration documentation](docs/jupiterone.md).
 
    The `.env` file is loaded into `process.env` before the integration code is
    executed. This file is not required should you configure the environment
-   another way. `.gitignore` is configured to to avoid commiting the `.env`
-   file.
+   another way. `.gitignore` is configured to avoid committing the `.env` file.
 
 ### Running the integration
+
+#### Running directly
 
 1. `yarn start` to collect data
 2. `yarn graph` to show a visualization of the collected data
 3. `yarn j1-integration -h` for additional commands
+
+#### Running with Docker
+
+Create an integration instance for the integration in JupiterOne. With an
+**JupiterOne API Key** scoped to the integration or an API Key with permissions
+to synchronize data and the **Integration Instance ID**:
+
+1. `docker build -t $IMAGE_NAME .`
+2. `docker run -e "JUPITERONE_API_KEY=<JUPITERONE_API_KEY>" -e "JUPITERONE_ACCOUNT=<JUPITERONE_ACCOUNT> -e "INTEGRATION_INSTANCE_ID=<INTEGRATION_INSTANCE_ID>" "JUPITERONE_API_BASE_URL=<JUPITERONE_API_BASE_URL>" $IMAGE_NAME`
 
 ### Making Contributions
 
@@ -53,34 +63,52 @@ for a deep dive into the mechanics of how integrations work.
 See [docs/development.md](docs/development.md) for any additional details about
 developing this integration.
 
+## Testing the integration
+
+Ideally, all major calls to the API and converter functions would be tested. You
+can run the tests with `yarn test`, and you can run the tests as they execute in
+the CI/CD environment with `yarn test:ci` (adds linting and type-checking to
+`yarn test`). If you have a valid runtime configuration, you can run the tests
+with your credentials using `yarn test:env`.
+
+For more details on setting up tests, and specifically on using recordings to
+simulate API responses, see `test/README.md`.
+
 ### Changelog
 
 The history of this integration's development can be viewed at
 [CHANGELOG.md](CHANGELOG.md).
 
-### Versioning this project
+## Versioning this project
 
-To version this project and tag the repo with a new version number, run the
-following (where `major.minor.patch` is the version you expect to move to):
+This project is versioned using [auto](https://intuit.github.io/auto/).
 
-```sh
-git checkout -b release-<major>.<minor>.<patch>
-vim CHANGELOG.md # remember to update CHANGELOG.md with version & date!
-git add CHANGELOG.md
-yarn version <major>.<minor>.<patch>
-git push --follow-tags -u origin release-<major>.<minor>.<patch>
-```
+Versioning and publishing to NPM are now handled via adding GitHub labels to
+pull requests. The following labels should be used for this process:
 
-**NOTE:** It is _critical_ that the tagged commit is the _last_ commit before
-merging to main. If any commit is added _after_ the tagged commit, the project
-will not be published to NPM.
+- patch
+- minor
+- major
+- release
 
-**NOTE:** Make sure you select the _Create a merge commit_ option when merging
-the PR for your release branch. Otherwise the publishing workflow will error
-out.
+For each pull request, the degree of change should be registered by applying the
+appropriate label of patch, minor, or major. This allows the repository to keep
+track of the highest degree of change since the last release. When ready to
+publish to NPM, the PR should have both its appropriate patch, minor, or major
+label applied as well as a release label. The release label will denote to the
+system that we need to publish to NPM and will correctly version based on the
+highest degree of change since the last release, package the project, and
+publish it to NPM.
 
-### Publishing
+In order to successfully version and publish to NPM we need access to two
+secrets: a valid NPM token for publishing and a GitHub token for querying the
+repo and pushing version changes. For JupiterOne projects please put in a ticket
+with security to have the repository correctly granted access. For external
+projects, please provide secrets with access to your own NPM and GitHub
+accounts. The secret names should be set to NPM_AUTH_TOKEN and
+AUTO_GITHUB_PAT_TOKEN respectively (or the action can be updated to accommodate
+different naming conventions).
 
-After the PR is merged to the main branch, the
-[**Build** github workflow](./.github/workflows/build.yml) should run the
-**Publish** step to publish this project to NPM.
+We are not currently using the functionality for auto to update the CHANGELOG.
+As such, please remember to update CHANGELOG.md with the appropriate version,
+date, and changes.
