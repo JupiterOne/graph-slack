@@ -42,7 +42,14 @@ export function toTeamEntityKey(teamId: string): string {
   return `slack-team:${teamId}`;
 }
 
-export function createUserEntity(teamId: string, user: SlackUser): Entity {
+export function createUserEntity(
+  teamId: string,
+  user: SlackUser,
+): Entity | undefined {
+  if (!user.id) {
+    return;
+  }
+
   let userType = 'user';
   /* istanbul ignore next */
   if (user.is_owner === true) {
@@ -55,7 +62,7 @@ export function createUserEntity(teamId: string, user: SlackUser): Entity {
     userType = 'app';
   }
 
-  const emailDomain = user.profile.email?.split('@').pop();
+  const emailDomain = user.profile?.email?.split('@').pop();
 
   return createIntegrationEntity({
     entityData: {
@@ -74,11 +81,11 @@ export function createUserEntity(teamId: string, user: SlackUser): Entity {
         realName: user.real_name,
         displayName:
           /* istanbul ignore next */
-          (!!user.profile.display_name && user.profile.display_name) ||
+          (!!user.profile?.display_name && user.profile.display_name) ||
           (!!user.real_name && user.real_name) ||
           (!!user.name && user.name) ||
           user.id,
-        email: user.profile.email,
+        email: user.profile?.email,
         emailDomain: emailDomain && [emailDomain],
         bot: user.is_bot === true,
         appUser: user.is_app_user === true,
@@ -111,7 +118,11 @@ export function toUserEntityKey({
 export function createChannelEntity(
   teamId: string,
   channel: SlackChannel,
-): Entity {
+): Entity | undefined {
+  if (!channel.id) {
+    return;
+  }
+
   return createIntegrationEntity({
     entityData: {
       source: channel,
@@ -136,12 +147,12 @@ export function createChannelEntity(
         archived: channel.is_archived === true,
         private: channel.is_private === true,
         public: channel.is_private !== true,
-        topic: channel.topic.value,
-        topicCreator: channel.topic.creator,
-        topicLastSet: channel.topic.last_set,
-        purpose: channel.purpose.value,
-        purposeCreator: channel.purpose.creator,
-        purposeLastSet: channel.purpose.last_set,
+        topic: channel.topic?.value,
+        topicCreator: channel.topic?.creator,
+        topicLastSet: channel.topic?.last_set,
+        purpose: channel.purpose?.value,
+        purposeCreator: channel.purpose?.creator,
+        purposeLastSet: channel.purpose?.last_set,
         numMembers: channel.num_members,
         teamId: teamId,
       },
