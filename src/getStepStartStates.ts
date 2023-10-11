@@ -5,12 +5,9 @@ import {
   IntegrationValidationError,
 } from '@jupiterone/integration-sdk-core';
 import { USERS_READ_SCOPE, CHANNELS_READ_SCOPE } from './provider';
-import teamStep from './steps/team';
-import fetchUsersStep from './steps/fetch-users';
-import fetchChannelMembersStep from './steps/fetch-channel-members';
-import fetchChannels from './steps/fetch-channels';
 import { parseSlackScopes } from './util/slack';
 import { SlackIntegrationConfig } from './type';
+import { Steps } from './constants';
 
 function validateExecutionConfig(
   executionContext: IntegrationExecutionContext<SlackIntegrationConfig>,
@@ -46,17 +43,17 @@ export default function getStepStartStates(
   );
 
   return {
-    [teamStep.id]: { disabled: false },
-    [fetchUsersStep.id]: {
+    [Steps.FETCH_TEAM]: { disabled: false },
+    [Steps.FETCH_USERS]: {
       disabled: !scopes.has(USERS_READ_SCOPE),
       disabledReason: DisabledStepReason.PERMISSION,
     },
-    [fetchChannelMembersStep.id]: {
+    [Steps.BUILD_CHANNEL_MEMBER_RELATIONSHIPS]: {
       disabled:
         !scopes.has(CHANNELS_READ_SCOPE) || !scopes.has(USERS_READ_SCOPE),
       disabledReason: DisabledStepReason.PERMISSION,
     },
-    [fetchChannels.id]: {
+    [Steps.FETCH_CHANNELS]: {
       disabled: !scopes.has(CHANNELS_READ_SCOPE),
       disabledReason: DisabledStepReason.PERMISSION,
     },

@@ -1,27 +1,19 @@
 import {
-  Recording,
-  setupRecording as sdkSetupRecording,
+  SetupRecordingInput,
+  setupRecording,
 } from '@jupiterone/integration-sdk-testing';
 export { Recording } from '@jupiterone/integration-sdk-testing';
-
-type SetupParameters = Parameters<typeof sdkSetupRecording>[0];
 
 /**
  * This function is a wrapper around the SDK's setup recording function
  * that redacts the 'api-secret-key' header.
  */
-export function setupRecording({
-  name,
-  directory,
-  ...overrides
-}: SetupParameters): Recording {
-  return sdkSetupRecording({
-    directory,
-    name,
+export function setupSlackRecording(input: SetupRecordingInput) {
+  return setupRecording({
+    ...input,
     mutateEntry: (entry) => {
       redactSlackTokenEntry(entry);
     },
-    ...overrides,
   });
 }
 

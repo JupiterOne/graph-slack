@@ -1,72 +1,29 @@
-import { Recording } from '@jupiterone/integration-sdk-testing';
-import { createMockStepExecutionContext } from '../../../../test/context';
 import {
-  SLACK_USER_TYPE,
-  SLACK_USER_CLASS,
-  createTeamHasUserRelationship,
-} from '../../../converters';
-import { setupRecording } from '../../../../test/recording';
+  Recording,
+  executeStepWithDependencies,
+} from '@jupiterone/integration-sdk-testing';
+import { setupSlackRecording } from '../../../../test/recording';
 
-import step from '../index';
-import { Entity, Relationship } from '@jupiterone/integration-sdk-core';
-import { matchesSlackUserKey } from '../../../../test/slack';
+import { Steps } from '../../../constants';
+import { buildStepTestConfig } from '../../../../test/config';
 
 let recording: Recording;
 
-beforeEach(() => {
-  recording = setupRecording({
-    directory: __dirname,
-    name: 'fetch-users',
-  });
-});
-
 afterEach(async () => {
-  await recording.stop();
+  if (recording) {
+    await recording.stop();
+  }
 });
 
-test('step data collection', async () => {
-  const context = createMockStepExecutionContext();
-  await step.executionHandler(context);
-
-  expect(context.jobState.collectedEntities.length).toBeGreaterThan(0);
-  expect(context.jobState.collectedRelationships.length).toBeGreaterThan(0);
-
-  const expectedCollectedEntities: Entity[] =
-    context.jobState.collectedEntities.map((entity: Entity) => {
-      return expect.objectContaining({
-        ...entity,
-        username: expect.any(String),
-        bot: expect.any(Boolean),
-        teamAdmin: expect.any(Boolean),
-        teamOwner: expect.any(Boolean),
-        primaryTeamOwner: expect.any(Boolean),
-        admin: expect.any(Boolean),
-        restricted: expect.any(Boolean),
-        ultraRestricted: expect.any(Boolean),
-        active: expect.any(Boolean),
-        updatedOn: expect.any(Number),
-        id: expect.any(String),
-        name: expect.any(String),
-        userId: expect.any(String),
-        _key: matchesSlackUserKey(),
-        _type: SLACK_USER_TYPE,
-        _class: [SLACK_USER_CLASS],
-        _rawData: expect.any(Array),
-        displayName: expect.any(String),
-      });
+describe(Steps.FETCH_USERS, () => {
+  test('success', async () => {
+    recording = setupSlackRecording({
+      directory: __dirname,
+      name: Steps.FETCH_USERS,
     });
 
-  expect(context.jobState.collectedEntities).toEqual(expectedCollectedEntities);
-
-  const expectedCollectedRelationships: Relationship[] =
-    context.jobState.collectedEntities.map((userEntity) =>
-      createTeamHasUserRelationship({
-        teamId: context.instance.config.teamId,
-        userEntity,
-      }),
-    );
-
-  expect(context.jobState.collectedRelationships).toEqual(
-    expectedCollectedRelationships,
-  );
+    const stepConfig = buildStepTestConfig(Steps.FETCH_USERS);
+    const stepResults = await executeStepWithDependencies(stepConfig);
+    expect(stepResults).toMatchStepMetadata(stepConfig);
+  });
 });

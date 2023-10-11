@@ -3,11 +3,11 @@ import { invocationConfig } from '../index';
 import instanceConfigFields from '../instanceConfigFields';
 import validateInvocation from '../validateInvocation';
 import getStepStartStates from '../getStepStartStates';
-import teamStep from '../steps/team';
-import fetchUsersStep from '../steps/fetch-users';
-import fetchChannelMembersStep from '../steps/fetch-channel-members';
-import fetchChannels from '../steps/fetch-channels';
 import { SlackIntegrationConfig } from '../type';
+import { teamSteps } from '../steps/team';
+import { userSteps } from '../steps/fetch-users';
+import { channelSteps } from '../steps/fetch-channels';
+import { ingestionConfig } from '../ingestionConfig';
 
 test('should export integration invocation config', () => {
   const expectedInvocationConfig: IntegrationInvocationConfig<SlackIntegrationConfig> =
@@ -15,12 +15,8 @@ test('should export integration invocation config', () => {
       instanceConfigFields,
       validateInvocation,
       getStepStartStates,
-      integrationSteps: [
-        teamStep,
-        fetchUsersStep,
-        fetchChannelMembersStep,
-        fetchChannels,
-      ],
+      ingestionConfig,
+      integrationSteps: [...teamSteps, ...channelSteps, ...userSteps],
     };
 
   expect(invocationConfig).toEqual(expectedInvocationConfig);
