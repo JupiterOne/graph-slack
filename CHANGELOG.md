@@ -1,3 +1,15 @@
+# v5.1.0 (Wed Oct 11 2023)
+
+#### 🚀 Enhancement
+
+- INT-8954: add ingestion config [#91](https://github.com/JupiterOne/graph-slack/pull/91) (ronald.arias@contractor.jupiterone.com)
+
+#### Authors: 1
+
+- Ronald Arias ([@RonaldEAM](https://github.com/RonaldEAM))
+
+---
+
 # v5.0.0 (Fri Oct 06 2023)
 
 #### 💥 Breaking Change
