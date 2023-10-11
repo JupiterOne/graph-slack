@@ -1,5 +1,5 @@
+import { Steps } from '../constants';
 import getStepStartStates from '../getStepStartStates';
-import { createMockStepExecutionContext } from '../../test/context';
 import { CHANNELS_READ_SCOPE, USERS_READ_SCOPE } from '../provider';
 import {
   DisabledStepReason,
@@ -8,41 +8,52 @@ import {
 
 function getDefaultStepStartStates(overrideStates?: {
   [key: string]: { [prop: string]: unknown };
-}): StepStartStates {
+}) {
   return {
-    team: {
+    [Steps.FETCH_TEAM]: {
       disabled: false,
     },
-    'fetch-channels': {
+    [Steps.FETCH_CHANNELS]: {
       disabled: true,
       disabledReason: DisabledStepReason.PERMISSION,
     },
-    'fetch-channel-members': {
+    [Steps.BUILD_CHANNEL_MEMBER_RELATIONSHIPS]: {
       disabled: true,
       disabledReason: DisabledStepReason.PERMISSION,
     },
-    'fetch-users': {
+    [Steps.FETCH_USERS]: {
       disabled: true,
       disabledReason: DisabledStepReason.PERMISSION,
     },
     ...overrideStates,
-  };
+  } as StepStartStates;
 }
 
 test('should throw if "accessToken" not provided in execution config', () => {
-  const context = createMockStepExecutionContext({
-    partialInstanceConfig: { accessToken: undefined },
-  });
-
+  const context = {
+    instance: {
+      config: {
+        accessToken: undefined,
+        teamId: 'team-id',
+        scopes: `${USERS_READ_SCOPE},${CHANNELS_READ_SCOPE}`,
+      },
+    },
+  } as any;
   expect(() => getStepStartStates(context)).toThrowError(
     'Configuration option "accessToken" is missing on the integration instance config',
   );
 });
 
 test('should throw if "teamId" not provided in execution config', () => {
-  const context = createMockStepExecutionContext({
-    partialInstanceConfig: { teamId: undefined },
-  });
+  const context = {
+    instance: {
+      config: {
+        accessToken: 'access-token',
+        teamId: undefined,
+        scopes: `${USERS_READ_SCOPE},${CHANNELS_READ_SCOPE}`,
+      },
+    },
+  } as any;
 
   expect(() => getStepStartStates(context)).toThrowError(
     'Configuration option "teamId" is missing on the integration instance config',
@@ -50,24 +61,33 @@ test('should throw if "teamId" not provided in execution config', () => {
 });
 
 test('should throw if "scopes" not provided in execution config', () => {
-  const context = createMockStepExecutionContext({
-    partialInstanceConfig: { scopes: undefined },
-  });
+  const context = {
+    instance: {
+      config: {
+        accessToken: 'access-token',
+        teamId: 'team-id',
+      },
+    },
+  } as any;
 
-  // Latest version of TS do not allow deleting properties that are not optional
-  delete (context as any).instance.config.scopes;
   expect(() => getStepStartStates(context)).toThrowError(
     'Configuration option "scopes" is missing on the integration instance config',
   );
 });
 
 test('should include "fetch-users" step if correct correct scopes provided', () => {
-  const context = createMockStepExecutionContext({
-    partialInstanceConfig: { scopes: USERS_READ_SCOPE },
-  });
+  const context = {
+    instance: {
+      config: {
+        accessToken: 'access-token',
+        teamId: 'team-id',
+        scopes: `${USERS_READ_SCOPE}`,
+      },
+    },
+  } as any;
 
   const expectedStepStartStates = getDefaultStepStartStates({
-    'fetch-users': {
+    [Steps.FETCH_USERS]: {
       disabled: false,
       disabledReason: DisabledStepReason.PERMISSION,
     },
@@ -77,22 +97,26 @@ test('should include "fetch-users" step if correct correct scopes provided', () 
 });
 
 test('should include "fetch-channel-members" step if correct scopes provided', () => {
-  const context = createMockStepExecutionContext({
-    partialInstanceConfig: {
-      scopes: `${USERS_READ_SCOPE},${CHANNELS_READ_SCOPE}`,
+  const context = {
+    instance: {
+      config: {
+        accessToken: 'access-token',
+        teamId: 'team-id',
+        scopes: `${USERS_READ_SCOPE},${CHANNELS_READ_SCOPE}`,
+      },
     },
-  });
+  } as any;
 
   const expectedStepStartStates = getDefaultStepStartStates({
-    'fetch-channel-members': {
+    [Steps.BUILD_CHANNEL_MEMBER_RELATIONSHIPS]: {
       disabled: false,
       disabledReason: DisabledStepReason.PERMISSION,
     },
-    'fetch-channels': {
+    [Steps.FETCH_CHANNELS]: {
       disabled: false,
       disabledReason: DisabledStepReason.PERMISSION,
     },
-    'fetch-users': {
+    [Steps.FETCH_USERS]: {
       disabled: false,
       disabledReason: DisabledStepReason.PERMISSION,
     },
@@ -101,15 +125,19 @@ test('should include "fetch-channel-members" step if correct scopes provided', (
   expect(getStepStartStates(context)).toEqual(expectedStepStartStates);
 });
 
-test('should disable "fetch-channel-members" step if "fetch-users" scopes are not set', () => {
-  const context = createMockStepExecutionContext({
-    partialInstanceConfig: {
-      scopes: `${CHANNELS_READ_SCOPE}`,
+test('should disable "build-channel-member-relationships" step if "fetch-users" scopes are not set', () => {
+  const context = {
+    instance: {
+      config: {
+        accessToken: 'access-token',
+        teamId: 'team-id',
+        scopes: `${CHANNELS_READ_SCOPE}`,
+      },
     },
-  });
+  } as any;
 
   const expectedStepStartStates = getDefaultStepStartStates({
-    'fetch-channels': {
+    [Steps.FETCH_CHANNELS]: {
       disabled: false,
       disabledReason: DisabledStepReason.PERMISSION,
     },

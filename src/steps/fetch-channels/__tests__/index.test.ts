@@ -1,72 +1,66 @@
 import {
-  createMockStepExecutionContext,
+  executeStepWithDependencies,
   Recording,
 } from '@jupiterone/integration-sdk-testing';
-import { SLACK_CHANNEL_TYPE, SLACK_CHANNEL_CLASS } from '../../../converters';
-import { setupRecording } from '../../../../test/recording';
+import { setupSlackRecording } from '../../../../test/recording';
 
-import step from '../index';
-import { Entity } from '@jupiterone/integration-sdk-core';
-import { matchesSlackChannelKey } from '../../../../test/slack';
-import { SlackIntegrationConfig } from '../../../type';
+import { Relationship } from '@jupiterone/integration-sdk-core';
+import {
+  matchesSlackChannelKey,
+  matchesSlackChannelUserRelationshipKey,
+  matchesSlackUserKey,
+} from '../../../../test/slack';
+import { Steps } from '../../../constants';
+import { buildStepTestConfig } from '../../../../test/config';
 
 let recording: Recording;
 
-beforeEach(() => {
-  recording = setupRecording({
-    directory: __dirname,
-    name: 'fetch-channels',
+afterEach(async () => {
+  if (recording) {
+    await recording.stop();
+  }
+});
+
+describe(Steps.FETCH_CHANNELS, () => {
+  test('success', async () => {
+    recording = setupSlackRecording({
+      directory: __dirname,
+      name: Steps.FETCH_CHANNELS,
+    });
+
+    const stepConfig = buildStepTestConfig(Steps.FETCH_CHANNELS);
+    const stepResults = await executeStepWithDependencies(stepConfig);
+    expect(stepResults).toMatchStepMetadata(stepConfig);
   });
 });
 
-afterEach(async () => {
-  await recording.stop();
-});
-
-test('step data collection', async () => {
-  const context = createMockStepExecutionContext<SlackIntegrationConfig>();
-  await step.executionHandler(context);
-
-  expect(context.jobState.collectedEntities.length).toBeGreaterThan(0);
-  expect(context.jobState.collectedRelationships.length).toEqual(0);
-
-  const expectedCollectedEntities: Entity[] =
-    context.jobState.collectedEntities.map((entity: Entity) => {
-      return expect.objectContaining({
-        ...entity,
-        isChannel: expect.any(Boolean),
-        isGroup: expect.any(Boolean),
-        isIm: expect.any(Boolean),
-        creator: expect.any(String),
-        isArchived: expect.any(Boolean),
-        isMember: expect.any(Boolean),
-        isPrivate: expect.any(Boolean),
-        isMpim: expect.any(Boolean),
-
-        public: expect.any(Boolean),
-        private: expect.any(Boolean),
-        active: expect.any(Boolean),
-        archived: expect.any(Boolean),
-
-        topic: expect.any(String),
-        topicCreator: expect.any(String),
-        topicLastSet: expect.any(Number),
-
-        purpose: expect.any(String),
-        purposeCreator: expect.any(String),
-        purposeLastSet: expect.any(Number),
-
-        numMembers: expect.any(Number),
-
-        id: expect.any(String),
-        name: expect.any(String),
-        _key: matchesSlackChannelKey(),
-        _type: SLACK_CHANNEL_TYPE,
-        _class: [SLACK_CHANNEL_CLASS],
-        _rawData: expect.any(Array),
-        displayName: entity.name,
-      });
+describe(Steps.BUILD_CHANNEL_MEMBER_RELATIONSHIPS, () => {
+  test('success', async () => {
+    recording = setupSlackRecording({
+      directory: __dirname,
+      name: Steps.BUILD_CHANNEL_MEMBER_RELATIONSHIPS,
     });
 
-  expect(context.jobState.collectedEntities).toEqual(expectedCollectedEntities);
+    const stepConfig = buildStepTestConfig(
+      Steps.BUILD_CHANNEL_MEMBER_RELATIONSHIPS,
+    );
+    const stepResults = await executeStepWithDependencies(stepConfig);
+    expect(stepResults).toMatchStepMetadata(stepConfig);
+    const expectedCollectedRelationships: Relationship[] =
+      stepResults.collectedRelationships.map(() => {
+        return {
+          _key: matchesSlackChannelUserRelationshipKey(),
+          _type: 'slack_channel_has_user',
+          _class: 'HAS',
+          _fromEntityKey: matchesSlackChannelKey(),
+          _toEntityKey: matchesSlackUserKey(),
+          _mapping: undefined,
+          displayName: 'HAS',
+        };
+      });
+
+    expect(stepResults.collectedRelationships).toEqual(
+      expectedCollectedRelationships,
+    );
+  });
 });

@@ -237,7 +237,7 @@ export class SlackWebClient extends WebClient {
       totalChannelMembers += numChannelMembersOnPage;
     } while (nextCursor);
 
-    this.integrationLogger.info(
+    this.integrationLogger.debug(
       {
         totalChannelMembers,
       },
