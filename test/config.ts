@@ -20,11 +20,11 @@ export function buildStepTestConfig(stepId: string): StepTestConfig {
 }
 
 export const config: SlackIntegrationConfig = {
-  appId: process.env.APP_ID || '',
-  botUserId: process.env.BOT_USER_ID || '',
-  authedUserId: process.env.AUTHED_USER_ID || '',
-  accessToken: process.env.ACCESS_TOKEN || '',
-  scopes: process.env.SCOPES || '',
-  teamId: process.env.TEAM_ID || '',
-  teamName: process.env.TEAM_NAME || '',
+  appId: process.env.APP_ID || 'app_id',
+  botUserId: process.env.BOT_USER_ID || 'bot_user_id',
+  authedUserId: process.env.AUTHED_USER_ID || 'authed_user_id',
+  accessToken: process.env.ACCESS_TOKEN || 'access_token',
+  scopes: process.env.SCOPES || 'users:read,channels:read,users:read.email',
+  teamId: process.env.TEAM_ID || 'team_id',
+  teamName: process.env.TEAM_NAME || 'test',
 };
