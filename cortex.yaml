@@ -1,0 +1,12 @@
+openapi: 3.0.1
+info:
+  title: '@jupiterone/graph-slack'
+  description: A graph conversion tool for https://slack.com
+  x-cortex-git:
+    github:
+      repository: JupiterOne/graph-slack
+  x-cortex-owners:
+    - type: group
+      name: JupiterOne/integrations
+  x-cortex-service-groups: tier-4
+  x-cortex-tag: '@jupiterone/graph-slack'
