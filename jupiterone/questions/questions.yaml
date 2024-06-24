@@ -9,10 +9,7 @@ questions:
     - query: |
         FIND slack_channel AS c 
           THAT HAS slack_user AS u 
-          RETURN 
-            c.name AS Channel, 
-            COUNT(u) AS UsersCount
-              ORDER BY UsersCount DESC
+        RETURN c.name AS Channel, COUNT(u) AS UsersCount
   tags:
   - slack
   - user
@@ -24,9 +21,7 @@ questions:
     - query: |
         FIND slack_channel AS c 
           THAT HAS slack_user WITH email !~= "{{@yourEmailDomain.com}}" AS u
-          RETURN 
-            c.name AS Channel, 
-            u.email AS User
+        RETURN c.name AS Channel, u.email AS User
   tags:
   - slack
   - user
