@@ -1,3 +1,23 @@
+# v5.2.0 (Wed Jul 03 2024)
+
+#### 🚀 Enhancement
+
+- Update dependencies. Separate invocation validation from step start states [#93](https://github.com/JupiterOne/graph-slack/pull/93) ([@VDubber](https://github.com/VDubber))
+
+#### ⚠️ Pushed to `main`
+
+- Apply remove-codeql with multi-gitter [ci skip] ([@electricgull](https://github.com/electricgull))
+- Fix x-cortex-service-groups where tier-4 was set incorrectly ([@jablonnc](https://github.com/jablonnc))
+- Populate CODEOWENRS, baseline package.json and baseline cortex.yaml ([@jablonnc](https://github.com/jablonnc))
+
+#### Authors: 3
+
+- Cameron Griffin ([@electricgull](https://github.com/electricgull))
+- Noah Jablonski ([@jablonnc](https://github.com/jablonnc))
+- Samuel Poulton ([@VDubber](https://github.com/VDubber))
+
+---
+
 # v5.1.0 (Wed Oct 11 2023)
 
 #### 🚀 Enhancement
