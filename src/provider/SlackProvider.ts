@@ -1,5 +1,8 @@
 import { retry } from '@lifeomic/attempt';
-import { IntegrationLogger } from '@jupiterone/integration-sdk-core';
+import {
+  IntegrationLogger,
+  IntegrationProviderAuthenticationError,
+} from '@jupiterone/integration-sdk-core';
 import {
   WebClient,
   WebClientOptions,
@@ -9,22 +12,6 @@ import {
   ErrorCode,
 } from '@slack/web-api';
 import { SlackUser, SlackChannel } from './types';
-
-export interface CreateSlackWebClientParams {
-  accessToken: string;
-}
-
-export interface ListUsersResult extends WebAPICallResult {
-  members: SlackUser[];
-}
-
-export interface ListChannelMembersResult extends WebAPICallResult {
-  members: string[];
-}
-
-export interface ListChannelsResult extends WebAPICallResult {
-  channels: SlackChannel[];
-}
 
 const defaultRetryOptions = {
   retries: 5,
@@ -79,6 +66,24 @@ export class SlackWebClient extends WebClient {
     super(token, webClientOptions);
     this.integrationLogger = logger;
     this.retryOptions = { ...defaultRetryOptions, ...retryOptions };
+  }
+
+  /**
+   * Call api.test to validate authentication.
+   */
+  async verifyAuthentication(): Promise<void> {
+    try {
+      await this.api.test();
+    } catch (error) {
+      if (error.data.ok === false) {
+        throw new IntegrationProviderAuthenticationError({
+          cause: error.data.error,
+          endpoint: 'api.test',
+          status: error.data.error,
+          statusText: error.data.error,
+        });
+      }
+    }
   }
 
   async retryWebApiPlatformError<T>(callback: () => Promise<T>) {
