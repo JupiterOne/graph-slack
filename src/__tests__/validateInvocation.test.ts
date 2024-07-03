@@ -4,8 +4,9 @@ jest.mock('../provider/SlackProvider', () => {
     SlackWebClient: jest.fn().mockImplementation(() => {
       return {
         api: {
-          test: mockSlackTestFn,
+          test: jest.fn(),
         },
+        verifyAuthentication: mockSlackTestFn,
         on: jest.fn(),
       };
     }),
@@ -13,7 +14,6 @@ jest.mock('../provider/SlackProvider', () => {
 });
 
 import validateInvocation from '../validateInvocation';
-import { WebAPICallResult } from '@slack/web-api';
 
 const context = {
   logger: {
@@ -23,6 +23,8 @@ const context = {
   instance: {
     config: {
       accessToken: 'test',
+      teamId: 'team-id',
+      scopes: 'read:test',
     },
   },
 } as any;
@@ -32,7 +34,9 @@ beforeEach(() => {
 });
 
 test('rejects if unable to hit provider apis', async () => {
-  mockSlackTestFn.mockRejectedValueOnce(new Error('test'));
+  mockSlackTestFn.mockRejectedValueOnce(
+    new Error('Failed to authenticate with provided credentials'),
+  );
 
   await expect(validateInvocation(context)).rejects.toThrow(
     /Failed to authenticate with provided credentials/,
@@ -40,10 +44,6 @@ test('rejects if unable to hit provider apis', async () => {
 });
 
 test('should return undefined if configuration is valid', async () => {
-  const mockResponse: WebAPICallResult = {
-    ok: true,
-  };
-
-  mockSlackTestFn.mockResolvedValueOnce(Promise.resolve(mockResponse));
+  mockSlackTestFn.mockResolvedValueOnce(Promise.resolve());
   await expect(validateInvocation(context)).resolves.toBe(undefined);
 });

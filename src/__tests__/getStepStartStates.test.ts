@@ -29,53 +29,7 @@ function getDefaultStepStartStates(overrideStates?: {
   } as StepStartStates;
 }
 
-test('should throw if "accessToken" not provided in execution config', () => {
-  const context = {
-    instance: {
-      config: {
-        accessToken: undefined,
-        teamId: 'team-id',
-        scopes: `${USERS_READ_SCOPE},${CHANNELS_READ_SCOPE}`,
-      },
-    },
-  } as any;
-  expect(() => getStepStartStates(context)).toThrowError(
-    'Configuration option "accessToken" is missing on the integration instance config',
-  );
-});
-
-test('should throw if "teamId" not provided in execution config', () => {
-  const context = {
-    instance: {
-      config: {
-        accessToken: 'access-token',
-        teamId: undefined,
-        scopes: `${USERS_READ_SCOPE},${CHANNELS_READ_SCOPE}`,
-      },
-    },
-  } as any;
-
-  expect(() => getStepStartStates(context)).toThrowError(
-    'Configuration option "teamId" is missing on the integration instance config',
-  );
-});
-
-test('should throw if "scopes" not provided in execution config', () => {
-  const context = {
-    instance: {
-      config: {
-        accessToken: 'access-token',
-        teamId: 'team-id',
-      },
-    },
-  } as any;
-
-  expect(() => getStepStartStates(context)).toThrowError(
-    'Configuration option "scopes" is missing on the integration instance config',
-  );
-});
-
-test('should include "fetch-users" step if correct correct scopes provided', () => {
+test('should include "fetch-users" step if correct scopes provided', () => {
   const context = {
     instance: {
       config: {

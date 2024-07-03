@@ -41,15 +41,15 @@
   },
   "dependencies": {
     "@lifeomic/attempt": "^3.0.1",
-    "@slack/web-api": "^6.6.0"
+    "@slack/web-api": "^7.2.0"
   },
   "peerDependencies": {
-    "@jupiterone/integration-sdk-core": "^11.0.3"
+    "@jupiterone/integration-sdk-core": "^12.8.3"
   },
   "devDependencies": {
-    "@jupiterone/integration-sdk-core": "^11.0.3",
-    "@jupiterone/integration-sdk-dev-tools": "^11.0.3",
-    "@jupiterone/integration-sdk-testing": "^11.0.3",
+    "@jupiterone/integration-sdk-core": "^12.8.3",
+    "@jupiterone/integration-sdk-dev-tools": "^12.8.3",
+    "@jupiterone/integration-sdk-testing": "^12.8.3",
     "@types/node": "^20.8.2",
     "@types/uuid": "^8.3.1",
     "auto": "^10.36.5",

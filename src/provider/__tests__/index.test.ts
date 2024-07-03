@@ -61,7 +61,7 @@ test('should not retry slack_webapi_request_error', async () => {
   const context = createMockStepExecutionContext<SlackIntegrationConfig>();
   const slackClient = createSlackClient(context);
 
-  const err = requestErrorWithOriginal({ name: '', message: '' });
+  const err = requestErrorWithOriginal({ name: '', message: '' }, false);
 
   // eslint-disable-next-line @typescript-eslint/require-await
   const callback = jest.fn(async () => {
